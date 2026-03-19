@@ -1,9 +1,9 @@
 package domain.combatants;
 import java.util.List;
 
-public class Warrior extends Player {
-    public Warrior(){
-        super("Warrior",260,40,20,30);
+public class Wizard extends Player {
+    public Wizard(){
+        super("Wizard",200,50,10,20);
     }
 
     @Override

@@ -7,9 +7,5 @@ public abstract class Enemy extends Combatant {
 
     public void takeTurn(){}
 
-    public void performBasicAttack(Combatant target){
-        target.applyDamage(this.attack);
-    }
-
     public boolean isStunned(){return true;}
 }
