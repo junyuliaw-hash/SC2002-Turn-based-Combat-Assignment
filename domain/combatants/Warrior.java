@@ -1,5 +1,4 @@
 package domain.combatants;
-import java.util.List;
 
 public class Warrior extends Player {
     public Warrior(){
