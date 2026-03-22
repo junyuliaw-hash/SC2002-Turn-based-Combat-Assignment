@@ -1,5 +1,6 @@
 package domain.statusEffect;
-package domain.combatants;
+
+import domain.combatants.Combatant;
 
 public abstract class StatusEffect {
     protected int duration;

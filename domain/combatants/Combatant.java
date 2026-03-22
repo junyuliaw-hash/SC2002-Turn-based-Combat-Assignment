@@ -2,6 +2,7 @@ package domain.combatants;
 
 import java.util.ArrayList;
 import java.util.List;
+import domain.statusEffect.StatusEffect;
 
 public abstract class Combatant {
     protected String name;

@@ -1,5 +1,6 @@
 package domain.statusEffect;
-package domain.combatants;
+
+import domain.combatants.Combatant;
 
 public class ArcaneBlastEffect extends StatusEffect {
     public ArcaneBlastEffect() { 
