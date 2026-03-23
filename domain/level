@@ -1,0 +1,67 @@
+package domain.level;
+
+import domain.entity.Enemy; // Not made yet, placeholder 
+import domain.entity.Goblin; // Not made yet, placeholder 
+import domain.entity.Wolf; // Not made yet, placeholder 
+import java.util.ArrayList;
+import java.util.List;
+
+public enum difficulty {
+	EASY(1, "Easy"),
+    MEDIUM(2, "Medium"),
+    HARD(3, "Hard");
+	
+	private final int levelNo;
+    private final String difficultyName;
+
+    Difficulty(int levelNo, String difficultyName) {
+        this.levelNo = levelNo;
+        this.difficultyName = difficultyName;
+    }
+    
+    public List<Enemy> getInitialSpawn() {
+        List<Enemy> enemies = new ArrayList<>();
+        switch (this) {
+            case EASY -> {
+                enemies.add(new Goblin("Goblin A"));
+                enemies.add(new Goblin("Goblin B"));
+                enemies.add(new Goblin("Goblin C"));
+            }
+            case MEDIUM -> {
+                enemies.add(new Goblin("Goblin"));
+                enemies.add(new Wolf("Wolf"));
+            }
+            case HARD -> {
+                enemies.add(new Goblin("Goblin A"));
+                enemies.add(new Goblin("Goblin B"));
+            }
+        }
+        return enemies;
+    }
+    
+    public List<Enemy> getBackupSpawn() {
+        List<Enemy> enemies = new ArrayList<>();
+        switch (this) {
+            case MEDIUM -> {
+                enemies.add(new Wolf("Wolf A"));
+                enemies.add(new Wolf("Wolf B"));
+            }
+            case HARD -> {
+                enemies.add(new Goblin("Goblin C"));
+                enemies.add(new Wolf("Wolf A"));
+                enemies.add(new Wolf("Wolf B"));
+            }
+            default -> { // Easy has no backup spawn // }
+        }
+        return enemies;
+        }
+    }
+
+    public String getDifficultyName() { 
+    	return difficultyName; 
+    }
+    
+    public int getLevelNo() { 
+    	return levelNo; 
+    }
+}
