@@ -1,8 +1,9 @@
-package domain.combatants;
+package entity.combatants;
 
 import java.util.ArrayList;
 import java.util.List;
-import domain.statusEffect.StatusEffect;
+
+import entity.statusEffect.StatusEffect;
 
 public abstract class Combatant {
     protected String name;

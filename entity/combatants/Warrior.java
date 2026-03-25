@@ -1,4 +1,4 @@
-package domain.combatants;
+package entity.combatants;
 
 public class Warrior extends Player {
     public Warrior(){

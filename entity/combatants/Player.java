@@ -1,4 +1,4 @@
-package domain.combatants;
+package entity.combatants;
 
 import java.util.List;
 import java.util.ArrayList;

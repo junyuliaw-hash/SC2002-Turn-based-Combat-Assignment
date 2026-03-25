@@ -1,4 +1,4 @@
-package domain.combatants;
+package entity.combatants;
 
 public class Wizard extends Player {
     public Wizard(){

@@ -1,8 +1,8 @@
-package domain.level;
+package entity.level;
 
-import domain.entity.Enemy; // Not made yet, placeholder 
-import domain.entity.Goblin; // Not made yet, placeholder 
-import domain.entity.Wolf; // Not made yet, placeholder 
+import entity.combatants.Enemy; 
+import entity.combatants.Goblin; 
+import entity.combatants.Wolf; 
 import java.util.ArrayList;
 import java.util.List;
 

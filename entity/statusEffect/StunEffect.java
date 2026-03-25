@@ -1,6 +1,6 @@
-package domain.statusEffect;
+package entity.statusEffect;
 
-import domain.combatants.Combatant;
+import entity.combatants.Combatant;
 
 public class StunEffect extends StatusEffect {
     public StunEffect() {

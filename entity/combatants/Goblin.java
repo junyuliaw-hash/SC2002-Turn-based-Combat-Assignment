@@ -1,4 +1,4 @@
-package domain.combatants;
+package entity.combatants;
 
 public class Goblin extends Enemy {
     public Goblin(){
