@@ -1,6 +1,6 @@
-package domain.items;
+package entity.items;
 
-import domain.combatants.Player;
+import entity.combatants.Player;
 
 public class PowerStone implements Item {
 
