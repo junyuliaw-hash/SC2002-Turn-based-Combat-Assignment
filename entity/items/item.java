@@ -1,6 +1,6 @@
 package entity.items;
 
-import domain.combatants.Player;
+import entity.combatants.Player;
 
 public interface Item {
     String getName();
