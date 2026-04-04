@@ -1,7 +1,14 @@
 package entity.combatants;
 
 public class Goblin extends Enemy {
-    public Goblin(){
-        super("Goblin",55,35,15,25);
+    private static int idCounterGoblin = 1;
+    
+    public Goblin() {
+        this.name = "Goblin " + (idCounterGoblin++);
+        this.maxHp = 55;
+        this.hp = 55;
+        this.attack = 35;
+        this.defense = 15;
+        this.speed = 25;
     }
 }

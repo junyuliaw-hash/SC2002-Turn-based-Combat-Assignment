@@ -1,3 +1,5 @@
+package actions;
+
 public class DefendAction implements Action {
     @Override
     public void execute(Combatant source, Combatant target, BattleContext context) {

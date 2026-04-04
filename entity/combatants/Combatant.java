@@ -1,26 +1,22 @@
 package entity.combatants;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import control.BattleEngine;
 import entity.statusEffect.StatusEffect;
 
 public abstract class Combatant {
     protected String name;
-    protected int hp, maxHp, attack, defense, speed;
-    protected List<StatusEffect> activeEffects;
-
-    public Combatant(String name, int hp, int attack, int defense, int speed){
-        this.name = name;
-        this.hp = hp;
-        this.maxHp = hp;
-        this.attack = attack;
-        this.defense = defense;
-        this.speed = speed;
-        this.activeEffects = new ArrayList<>();
-    }
-
-    public abstract void takeTurn();
+    protected int hp;
+    protected int maxHp;
+    protected int attack;
+    protected int defense;
+    protected int speed;
+    protected List<StatusEffect> activeEffects = new ArrayList<>();
+    
+    public abstract void takeTurn(BattleEngine engine);
     
     public void applyDamage(int rawDmg){
         int finalDmg = Math.max(0, rawDmg - this.defense);
@@ -32,32 +28,33 @@ public abstract class Combatant {
     }
 
     public void addStatusEffect(StatusEffect effect){
-        this.activeEffects.add(effect);
+        activeEffects.add(effect);
         effect.apply(this);
     }
 
-    public boolean hasStatusEffect(String effectName){
-        for (StatusEffect effect:activeEffects){
-            if (effect.getEffectName().equals(effectName)){
-                return true;
+    public void updateEffects(){
+        Iterator<StatusEffect> it = activeEffects.iterator();
+        while (it.hasNext()){
+            statusEffect effect = it.next();
+            effect.decreaseDuration();
+            if (effect.getDuration() <= 0){
+                effect.remove(this);
+                it.remove();
             }
         }
-        return false;
     }
 
-    public int getHp(){return this.hp;}
-    public int getMaxHp(){return this.maxHp;}
-    public int getAttack(){return this.attack;}
-    public int getDefense(){return this.defense;}
-    public int getSpeed(){return this.speed;}
-    public String getName(){return name;}
+    public boolean hasEffect(String effectName) {
+        return activeEffects.stream().anyMatch(e -> e.getName().equals(effectName));
+    }
 
-    public void setHp(int hp){this.hp = hp;}
+    public boolean isAlive(){return hp > 0;}
+    public String getName(){return name;}
+    public int getHp(){return hp;}
+    public int getMaxHp(){return maxHp;}
+    public int getAttack(){return attack;}
+    public int getDefense(){return defense;}
+    public int getSpeed(){return speed;}
     public void setAttack(int attack){this.attack = attack;}
     public void setDefense(int defense){this.defense = defense;}
-    public void setSpeed(int speed){this.speed = speed;}
-
-    public boolean isAlive(){
-        return this.hp > 0;
-    }
 }

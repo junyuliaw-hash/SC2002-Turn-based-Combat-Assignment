@@ -1,4 +1,4 @@
-package entity.level;
+package control;
 
 import entity.combatants.Enemy; 
 import entity.combatants.Goblin; 
