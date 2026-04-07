@@ -3,7 +3,7 @@ package actions;
 public class DefendAction implements Action {
     @Override
     public void execute(Combatant source, Combatant target, BattleContext context) {
-        source.applyStatusEffect(new DefendEffect());
+        source.addStatusEffect(new DefendEffect());
     }
 
     @Override
@@ -39,7 +39,7 @@ public class SpecialSkillAction implements Action {
             System.out.println("Warrior uses Shield Bash on " + target.getName() + "!");
             int damage = Math.max(0, source.getAttack() - target.getDefense());
             target.takeDamage(damage);
-            target.applyStatusEffect(new StunEffect());
+            target.addStatusEffect(new StunEffect());
         } else if (source.getName().equals("Wizard")) {
             System.out.println("Wizard uses Arcane Blast!");
             for (Combatant enemy : context.getEnemies()) {
@@ -53,7 +53,7 @@ public class SpecialSkillAction implements Action {
                 }
             }
         }
-        // ****Logic to track the 3-turn cooldown would go here on the source Combatant
+        // ****Logic for 3-turn cooldown would go here on the source Combatant
     }
 
     @Override
