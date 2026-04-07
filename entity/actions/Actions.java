@@ -52,12 +52,12 @@ public class SpecialSkillAction implements Action {
                     enemy.applyDamage(damage);
                     if (!enemy.isAlive()) {
                         System.out.println("Arcane Blast defeated " + enemy.getName() + "! Wizard gains +10 Attack.");
-                        Wizard.attack += 10; 
+                        source.getAttack() += 10; 
                     }
                 }
             }
         }
-        // ****Logic for 3-turn cooldown would go here on the source Combatant
+        // *** 3-turn cooldown on the source Combatant
     }
 
     @Override
