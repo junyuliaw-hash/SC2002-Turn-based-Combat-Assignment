@@ -2,9 +2,8 @@ package entity.actions;
 
 public class Defend implements Action {
     @Override
-    public void execute(Combatant executor, Combatant target) {
+    public void execute(Combatant player, Enemy enemy) {
         System.out.println(executor.getName() + " takes a defensive stance!");
-        executor.applyEffect(new DefendEffect()); // Increases defense by 10 [cite: 76, 79]
-        // Note: Concrete implementation should modify executor.defense temporarily
+        executor.applyEffect(new DefendEffect()); 
     }
 }
