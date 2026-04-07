@@ -38,13 +38,13 @@ public class SpecialSkillAction implements Action {
     }
 
     @Override
-    public void execute(Combatant source, Combatant target, BattleContext context) {
-        if (source.getName().equals("Warrior")) {
-            System.out.println("Warrior uses Shield Bash on " + target.getName() + "!");
-            int damage = Math.max(0, source.getAttack() - target.getDefense());
-            target.applyDamage(damage);
-            target.addStatusEffect(new StunEffect());
-        } else if (source.getName().equals("Wizard")) {
+    public void execute(Combatant player, Combatant enemy, BattleContext context) {
+        if (player.getName().equals("Warrior")) {
+            System.out.println("Warrior uses Shield Bash on " + enemy.getName() + "!");
+            int damage = Math.max(0, player.getAttack() - enemy.getDefense());
+            enemy.applyDamage(damage);
+            enemy.addStatusEffect(new StunEffect());
+        } else if (player.getName().equals("Wizard")) {
             System.out.println("Wizard uses Arcane Blast!");
             for (Combatant enemy : context.getEnemies()) {
                 if (enemy.isAlive()) {
@@ -52,7 +52,7 @@ public class SpecialSkillAction implements Action {
                     enemy.applyDamage(damage);
                     if (!enemy.isAlive()) {
                         System.out.println("Arcane Blast defeated " + enemy.getName() + "! Wizard gains +10 Attack.");
-                        source.getAttack() += 10; 
+                        player.attack += 10; 
                     }
                 }
             }
