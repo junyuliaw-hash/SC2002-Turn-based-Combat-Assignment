@@ -1,13 +1,13 @@
 package control;
 
-import model.combatant.Combatant;
-import model.combatant.Player;
-import model.combatant.Enemy;
-import model.level.DifficultyLevel;
-import model.level.LevelConfig;
-import strategy.TurnOrderStrategy;
-import strategy.SpeedBasedTurnOrder;
-import ui.BattleUI;
+import entity.combatants.Combatant;
+import entity.combatants.Player;
+import entity.combatants.Enemy;
+import control.DifficultyLevel;
+import control.TurnManager;
+import control.SpeedBasedStrategy;
+import control.TurnOrderStrategy;
+import boundary.CombatMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public class BattleEngine {
     private       TurnOrderStrategy turnStrategy;
     private       int               roundNumber;
     private final DifficultyLevel   difficultyLevel;
-    private final BattleUI          ui;
+    private final CombatMenu         ui;
     private final LevelConfig       levelConfig;
 
     private boolean backupSpawned = false;
@@ -34,7 +34,7 @@ public class BattleEngine {
         this.difficultyLevel = difficultyLevel;
         this.ui              = ui;
         this.levelConfig     = LevelConfig.forDifficulty(difficultyLevel);
-        this.turnStrategy    = new SpeedBasedTurnOrder();
+        this.turnStrategy    = new SpeedBasedStrategy();
         this.roundNumber     = 0;
         this.enemies         = new ArrayList<>(levelConfig.createInitialEnemies());
     }
@@ -147,10 +147,10 @@ public class BattleEngine {
 
     private void displayEndScreen() {
         if (player.isAlive()) {
-            ui.displayVictory(player, roundNumber);
+            ui.displayVictoryScreen(player, roundNumber);
         } else {
             long remaining = enemies.stream().filter(Combatant::isAlive).count();
-            ui.displayDefeat(roundNumber, (int) remaining);
+            ui.displayDefeatScreen(roundNumber, (int) remaining);
         }
     }
 }

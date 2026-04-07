@@ -2,7 +2,6 @@ package control;
 
 import java.util.List;
 import java.util.ArrayList;
-
 import entity.combatants.Combatant;
 
 public class TurnManager {

@@ -1,6 +1,6 @@
-package strategy;
+package control;
 
-import model.combatant.Combatant;
+import entity.combatants.Combatant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
  *
  * OCP — swap this out for any other TurnOrderStrategy without touching BattleEngine.
  */
-public class SpeedBasedTurnOrder implements TurnOrderStrategy {
+public class SpeedBasedStrategy implements TurnOrderStrategy {
 
     @Override
     public List<Combatant> determineTurnOrder(List<Combatant> combatants) {
