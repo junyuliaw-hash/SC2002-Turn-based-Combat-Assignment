@@ -1,1 +1,39 @@
+package entity.actions;
 
+public abstract class SpecialSkill implements Action {
+	
+    @Override
+    public void execute(Combatant executor, Combatant target) {
+        if (executor.getSkillCooldown() > 0) { 
+            System.out.println("Skill on cooldown! " + executor.getSkillCooldown() + " turns left.");
+            return; // cooldown (3 turns including current)
+        }
+
+        if (executor instanceof Warrior) {
+            executeWarriorSkill(executor, target);
+        }
+        else if (executor instanceof Wizard) {
+            executeWizardSkill(executor, target);
+        }
+        
+        executor.updateCooldown(3); 
+    }
+
+    public void executeWarriorSkill(Combatant warrior, Combatant target) {
+        System.out.println(warrior.getName() + " uses SHIELD BASH!");
+        new BasicAttack().execute(warrior, target);
+        target.addStatusEffect(new StunEffect(2));  
+    }
+
+    public void executeWizardSkill(Combatant wizard, List<Combatant> targets) {
+        System.out.println(wizard.getName() + " uses ARCANE BLAST!");
+        for (Combatant target : new ArrayList<>(targets)) {
+            int oldHp = target.getHp();
+            new BasicAttack().execute(wizard, target);
+            
+            if (oldHp > 0 && target.getHp() <= 0) {
+                System.out.println("Enemy defeated! Wizard Attack increased!");
+            }
+        }
+    }
+}
