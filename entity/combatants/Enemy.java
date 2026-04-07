@@ -1,6 +1,6 @@
 package entity.combatants;
 
-import control.BattleEngine
+import control.BattleEngine;
 
 public abstract class Enemy extends Combatant {
     public void performBasicAttack(Player target){

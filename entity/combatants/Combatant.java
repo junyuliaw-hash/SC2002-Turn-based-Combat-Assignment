@@ -35,7 +35,7 @@ public abstract class Combatant {
     public void updateEffects(){
         Iterator<StatusEffect> it = activeEffects.iterator();
         while (it.hasNext()){
-            statusEffect effect = it.next();
+            StatusEffect effect = it.next();
             effect.decreaseDuration();
             if (effect.getDuration() <= 0){
                 effect.remove(this);
