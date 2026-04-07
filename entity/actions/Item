@@ -1,10 +1,16 @@
 package entity.actions;
 
+import java.util.List;
+
+import entity.combatants.Combatant; 
+import entity.combatants.Enemy; 
+import entity.items.Item; 
+
 public class Item implements Action {
     private Item item;
     private List<Combatant> allEnemies;
 
-    public ItemAction(Item item, List<Combatant> allEnemies) {
+    public Item(Item item, List<Combatant> allEnemies) {
         this.item = item;
         this.allEnemies = allEnemies;
     }
@@ -12,7 +18,7 @@ public class Item implements Action {
     @Override
     public void execute(Combatant player, Enemy enemy) {
         if (item != null) {
-            item.use(player, allEnemies);  
+            item.use(player, allEnemies); 
         }
     }
 }
