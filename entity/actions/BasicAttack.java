@@ -5,15 +5,15 @@ import entity.combatants.Enemy;
 
 public class BasicAttack implements Action {
     @Override
-    public void execute(Combatant player, Enemy enemy) {
-        int damage = Math.max(0, player.getAttack() - enemy.getDefense());
+    public void execute(Combatant executor, Combatant target) {
+        int damage = Math.max(0, executor.getAttack() - target.getDefense());
         
-        if (player.activeEffects.stream().anyMatch(e -> e instanceof SmokeBombEffect)) {
+        if (target.activeEffects.stream().anyMatch(e -> e instanceof SmokeBombEffect)) {
             damage = 0;
-            System.out.println(player.getName() + " is hidden in smoke! 0 damage taken.");
+            System.out.println(target.getName() + " is hidden in smoke! 0 damage taken.");
         } else {
-            enemy.takeDamage(damage);
-            System.out.println(player.getName() + " attacks " + player.getName() + " for " + damage + " damage!");
+            target.takeDamage(damage);
+            System.out.println(executor.getName() + " attacks " + target.getName() + " for " + damage + " damage!");
         }
     }
 }
