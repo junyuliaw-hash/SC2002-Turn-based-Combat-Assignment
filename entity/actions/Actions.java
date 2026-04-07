@@ -3,7 +3,7 @@ package actions;
 public class DefendAction implements Action {
     @Override
     public void execute(Combatant source, Combatant target, BattleContext context) {
-        source.addStatusEffect(new DefenseBuff());
+        source.addStatusEffect(new DefendEffect());
     }
 
     @Override
@@ -53,7 +53,7 @@ public class SpecialSkillAction implements Action {
                 }
             }
         }
-        // ****Logic to track the 3-turn cooldown would go here on the source Combatant
+        // ****Logic for 3-turn cooldown would go here on the source Combatant
     }
 
     @Override
