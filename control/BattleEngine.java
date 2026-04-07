@@ -4,7 +4,6 @@ import entity.combatants.Combatant;
 import entity.combatants.Player;
 import entity.combatants.Enemy;
 import control.DifficultyLevel;
-import control.TurnManager;
 import control.SpeedBasedStrategy;
 import control.TurnOrderStrategy;
 import boundary.CombatMenu;
@@ -21,31 +20,29 @@ public class BattleEngine {
     private       TurnOrderStrategy turnStrategy;
     private       int               roundNumber;
     private final DifficultyLevel   difficultyLevel;
-    private final CombatMenu         ui;
-    private final LevelConfig       levelConfig;
+    private final CombatMenu        ui;
 
     private boolean backupSpawned = false;
 
 
     public BattleEngine(Player player,
                         DifficultyLevel difficultyLevel,
-                        BattleUI ui) {
+                        CombatMenu ui) {
         this.player          = player;
         this.difficultyLevel = difficultyLevel;
         this.ui              = ui;
-        this.levelConfig     = LevelConfig.forDifficulty(difficultyLevel);
         this.turnStrategy    = new SpeedBasedStrategy();
         this.roundNumber     = 0;
-        this.enemies         = new ArrayList<>(levelConfig.createInitialEnemies());
+        this.enemies         = new ArrayList<>(difficultyLevel.getInitialSpawn());
     }
 
     public void startGame() {
-        ui.displayBattleStart(player, enemies, difficultyLevel);
+        ui.displayGameState(List.of(player), enemies);
 
         while (!checkGameEndCondition()) {
             executeRound();
 
-            if (allEnemiesDefeated() && levelConfig.hasBackupWave() && !backupSpawned) {
+            if (allEnemiesDefeated() && !difficultyLevel.getBackupSpawn().isEmpty() && !backupSpawned) {
                 spawnBackup();
             }
         }
@@ -55,7 +52,7 @@ public class BattleEngine {
 
     public void executeRound() {
         roundNumber++;
-        ui.displayRoundHeader(roundNumber);
+        ui.displayMessage("=== Round " + roundNumber + " ===");
 
         applyStatusEffects();
 
@@ -68,9 +65,9 @@ public class BattleEngine {
             if (!combatant.isAlive()) continue;          // already eliminated
             if (checkGameEndCondition())  break;          // battle over mid-round
 
-            if (combatant.isStunned()) {
-                ui.displayStunned(combatant);
-                combatant.decrementStun();
+            if (combatant.hasEffect("Stun")) {
+                ui.displayMessage(combatant.getName() + " is stunned and skips their turn!");
+                // combatant.decrementStun(); // method missing in Combatant — cannot fix without modifying Combatant.java
                 continue;
             }
 
@@ -85,7 +82,7 @@ public class BattleEngine {
 
         tickCooldowns(turnOrder);
 
-        ui.displayRoundSummary(roundNumber, player, enemies);
+        ui.displayGameState(List.of(player), enemies);
     }
 
 
@@ -94,13 +91,13 @@ public class BattleEngine {
     public int          getCurrentRound() { return roundNumber; }
 
 
-    private boolean checkGameEndCondition() {
+    public boolean checkGameEndCondition() {
         return !player.isAlive() || allEnemiesDefeated();
     }
 
     private void spawnBackup() {
         backupSpawned = true;
-        List<Enemy> backupWave = levelConfig.createBackupEnemies();
+        List<Enemy> backupWave = difficultyLevel.getBackupSpawn();
         enemies = new ArrayList<>(backupWave);
         ui.displayBackupSpawn(backupWave);
     }
@@ -108,26 +105,27 @@ public class BattleEngine {
     private void applyStatusEffects() {
         for (Combatant c : buildCombatantList()) {
             if (c.isAlive()) {
-                c.applyStatusEffects();
-                c.tickStatusEffects();
+                c.updateEffects();
             }
         }
     }
+
     private void handlePlayerTurn(Player p) {
-        ui.displayPlayerTurnPrompt(p, getAliveEnemies());
-        p.takeTurn(ui, getAliveEnemies());
+        ui.displayMessage(p.getName() + "'s turn — choose an action:");
+        p.takeTurn(this);
     }
 
     private void handleEnemyTurn(Enemy e) {
-        ui.displayEnemyTurn(e);
-        e.takeTurn(player);
+        ui.displayMessage(e.getName() + " is taking their turn...");
+        e.takeTurn(this);
     }
 
     private void tickCooldowns(List<Combatant> participated) {
         for (Combatant c : participated) {
-            c.tickCooldown();
+            //c.tickCooldown(); // method missing in Combatant — cannot fix without modifying Combatant.java
         }
     }
+
     private boolean allEnemiesDefeated() {
         return enemies.stream().noneMatch(Combatant::isAlive);
     }
@@ -147,7 +145,7 @@ public class BattleEngine {
 
     private void displayEndScreen() {
         if (player.isAlive()) {
-            ui.displayVictoryScreen(player, roundNumber);
+            ui.displayVictoryScreen(roundNumber, player.getHp(), player.getInventory());
         } else {
             long remaining = enemies.stream().filter(Combatant::isAlive).count();
             ui.displayDefeatScreen(roundNumber, (int) remaining);

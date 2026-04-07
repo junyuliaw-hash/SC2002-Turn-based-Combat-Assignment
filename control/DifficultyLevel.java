@@ -23,17 +23,17 @@ public enum DifficultyLevel {
         List<Enemy> enemies = new ArrayList<>();
         switch (this) {
             case EASY -> {
-                enemies.add(new Goblin("Goblin A"));
-                enemies.add(new Goblin("Goblin B"));
-                enemies.add(new Goblin("Goblin C"));
+                enemies.add(new Goblin());
+                enemies.add(new Goblin());
+                enemies.add(new Goblin());
             }
             case MEDIUM -> {
-                enemies.add(new Goblin("Goblin"));
-                enemies.add(new Wolf("Wolf"));
+                enemies.add(new Goblin());
+                enemies.add(new Wolf());
             }
             case HARD -> {
-                enemies.add(new Goblin("Goblin A"));
-                enemies.add(new Goblin("Goblin B"));
+                enemies.add(new Goblin());
+                enemies.add(new Goblin());
             }
         }
         return enemies;
@@ -43,19 +43,19 @@ public enum DifficultyLevel {
         List<Enemy> enemies = new ArrayList<>();
         switch (this) {
             case MEDIUM -> {
-                enemies.add(new Wolf("Wolf A"));
-                enemies.add(new Wolf("Wolf B"));
+                enemies.add(new Wolf());
+                enemies.add(new Wolf());
             }
             case HARD -> {
-                enemies.add(new Goblin("Goblin C"));
-                enemies.add(new Wolf("Wolf A"));
-                enemies.add(new Wolf("Wolf B"));
+                enemies.add(new Goblin());
+                enemies.add(new Wolf());
+                enemies.add(new Wolf());
             }
-            default -> { // Easy has no backup spawn // }
+            default -> {} // Easy has no backup spawn // 
         }
         return enemies;
         }
-    }
+    
 
     public String getDifficultyName() { 
     	return difficultyName; 
