@@ -1,19 +1,16 @@
-package entity.items;
-
-import entity.combatants.Player;
+package items;
 
 public class PowerStone implements Item {
-
+    private String name = "Power Stone";
     @Override
     public String getName() {
-        return "Power Stone";
+        return name;
     }
 
     @Override
-    public void use(Player target) {
-        System.out.println("Power Stone used! Triggering special skill for free.");
-        
-        // Forces the player to use their special skill [cite: 82]
-        target.useSpecialSkill(); 
+    public void use(Combatant player, Combatant target) {
+    player.useSpecialAttack(target);
+    System.out.println(player.getName() + " used Power Stone! Unleashed a powerful attack on " + target.getName() + "!");         
     }
+    
 }

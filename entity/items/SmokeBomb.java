@@ -1,19 +1,18 @@
-package entity.items;
+package items;
 
-import entity.combatants.Player;
+import status.SmokeBombEffect;
 
 public class SmokeBomb implements Item {
-
+    private String name = "Smoke Bomb";
     @Override
     public String getName() {
-        return "Smoke Bomb";
+        return name;
     }
 
     @Override
-    public void use(Player target) {
-        // Tells the Player to activate the Smoke Bomb status
-        target.applySmokeBombEffect(); 
-        
-        System.out.println("Smoke Bomb thrown! Enemy attacks deal 0 damage this turn and the next turn.");
+    public void use(Combatant player, Combatant target) {
+        SmokeBombEffect stun = new SmokeBombEffect();
+        stun.apply(target);
+        System.out.println(player.getName() + " used Smoke Bomb! " + target.getName() + " is stunned for 2 turns.");
     }
 }
