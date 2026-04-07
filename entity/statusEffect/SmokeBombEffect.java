@@ -1,4 +1,7 @@
 package status;
+import java.util.List;
+
+import entity.combatants.*;
 
 public class SmokeBombEffect extends StatusEffect {
     public SmokeBombEffect() { 
@@ -18,5 +21,19 @@ public class SmokeBombEffect extends StatusEffect {
     @Override
     public void decreaseDuration() {
             duration--;
+    }
+
+    @Override
+    public void apply(List<Enemy> targets) {
+        for (Enemy target : targets) {
+            apply(target);
+        }
+    }
+
+    @Override
+    public void remove(List<Enemy> targets) {
+        for (Enemy target : targets) {
+            remove(target);
+        }
     }
 }

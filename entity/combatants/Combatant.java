@@ -5,7 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import control.BattleEngine;
+import entity.statusEffect.PoisonEffect;
 import entity.statusEffect.StatusEffect;
+import status.ArcaneBlastEffect;
 
 public abstract class Combatant {
     protected String name;
@@ -27,9 +29,9 @@ public abstract class Combatant {
         this.hp = Math.min(this.hp + amount, this.maxHp);
     }
 
-    public void addStatusEffect(StatusEffect effect){
+    public void addStatusEffect(PoisonEffect effect){
         activeEffects.add(effect);
-        effect.apply(this);
+        poisonEffect.apply(this);
     }
 
     public void updateEffects(){
@@ -57,4 +59,8 @@ public abstract class Combatant {
     public int getSpeed(){return speed;}
     public void setAttack(int attack){this.attack = attack;}
     public void setDefense(int defense){this.defense = defense;}
+
+    public abstract void addStatusEffect(ArcaneBlastEffect arcaneBlastEffect);
+
+    public abstract void addStatusEffect(status.PoisonEffect poisonEffect);
 }

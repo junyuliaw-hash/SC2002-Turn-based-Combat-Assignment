@@ -1,5 +1,8 @@
 package status;
 
+import entity.combatants.*;
+import java.util.List;
+
 public abstract class StatusEffect {
     protected int duration;
     protected String effectName;
@@ -9,7 +12,9 @@ public abstract class StatusEffect {
         this.effectName = effectName;
     }
     public abstract void apply(Combatant target);
+    public abstract void apply(List<Enemy> targets);
     public abstract void remove(Combatant target);
+    public abstract void remove(List<Enemy> targets);
     public void decreaseDuration() {
         if (duration > 0) {
             duration--;

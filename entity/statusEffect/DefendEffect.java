@@ -1,4 +1,7 @@
 package status;
+import java.util.List;
+
+import entity.combatants.*;
 
 public class DefendEffect extends StatusEffect {
     private int defenseBoost = 10;
@@ -17,4 +20,19 @@ public class DefendEffect extends StatusEffect {
         int currentDefense = target.getDefense();
         target.setDefense(currentDefense - defenseBoost);
     }
+
+    @Override
+    public void apply(List<Enemy> targets) {
+        for (Enemy target : targets) {
+            apply(target);
+        }
+    }
+
+    @Override
+    public void remove(List<Enemy> targets) {
+        for (Enemy target : targets) {
+            remove(target);
+        }
+    }
 }
+  
