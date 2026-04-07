@@ -2,8 +2,7 @@ package entity.actions;
 
 import java.util.List;
 
-import entity.combatants.Combatant; 
-import entity.combatants.Enemy; 
+import entity.combatants.Combatant;  
 import entity.items.Item; 
 
 public class UseItem implements Action {
@@ -16,9 +15,9 @@ public class UseItem implements Action {
     }
 
     @Override
-    public void execute(Combatant player, Enemy enemy) {
+    public void execute(Combatant executor, Combatant target) {
         if (item != null) {
-            item.use(player, allEnemies); 
+            item.use(executor, allEnemies); 
         }
     }
 }
