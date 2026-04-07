@@ -1,8 +1,8 @@
 package boundary;
 
 import control.BattleEngine;
-import domain.combatants.Enemy;
-import domain.combatants.Player;
+import entity.combatants.Enemy;
+import entity.combatants.Player;
 import items.Item;
 
 import java.util.List;
