@@ -6,7 +6,7 @@ import entity.combatants.Wolf;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum difficulty {
+public enum DifficultyLevel {
 	EASY(1, "Easy"),
     MEDIUM(2, "Medium"),
     HARD(3, "Hard");
@@ -14,7 +14,7 @@ public enum difficulty {
 	private final int levelNo;
     private final String difficultyName;
 
-    Difficulty(int levelNo, String difficultyName) {
+    DifficultyLevel(int levelNo, String difficultyName) {
         this.levelNo = levelNo;
         this.difficultyName = difficultyName;
     }
