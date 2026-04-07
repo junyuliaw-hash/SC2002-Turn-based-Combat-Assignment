@@ -2,7 +2,7 @@ package entity.actions;
 
 public class BasicAttack implements Action {
     @Override
-    public void execute(Combatant executor, Combatant target) {
+    public void execute(Combatant player, Enemy enemy) {
         // Damage = max(0, Attacker Attack - Target Defense) 
         int damage = Math.max(0, executor.getAttack() - target.getDefense());
         
