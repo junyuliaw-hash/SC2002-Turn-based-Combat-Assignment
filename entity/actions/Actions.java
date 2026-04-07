@@ -1,4 +1,4 @@
-package actions;
+package entity.actions;
 
 public class Action { 
     public void execute(); 
