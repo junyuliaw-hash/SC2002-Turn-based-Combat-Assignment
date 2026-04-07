@@ -1,4 +1,4 @@
-package engine;
+package control;
 
 import model.combatant.Combatant;
 import model.combatant.Player;
