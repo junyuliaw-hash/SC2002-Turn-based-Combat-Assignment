@@ -10,9 +10,9 @@ public class Item implements Action {
     }
 
     @Override
-    public void execute(Combatant executor, Combatant target) {
+    public void execute(Combatant player, Enemy enemy) {
         if (item != null) {
-            item.use(executor, allEnemies); // Uses the Item 
+            item.use(player, allEnemies);  
         }
     }
 }
