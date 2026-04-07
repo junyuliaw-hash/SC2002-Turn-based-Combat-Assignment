@@ -89,6 +89,7 @@ public class BattleEngine {
     public Player       getPlayer()       { return player; }
     public List<Enemy>  getEnemies()      { return new ArrayList<>(enemies); }
     public int          getCurrentRound() { return roundNumber; }
+    public CombatMenu   getUI()           { return ui; }
 
 
     public boolean checkGameEndCondition() {
