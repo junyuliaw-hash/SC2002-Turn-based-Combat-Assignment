@@ -3,7 +3,7 @@ package boundary;
 import control.BattleEngine;
 import entity.combatants.Enemy;
 import entity.combatants.Player;
-import items.Item;
+import entity.items.Item;
 
 import java.util.List;
 import java.util.Scanner;
