@@ -5,9 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import control.BattleEngine;
-import entity.statusEffect.PoisonEffect;
-import entity.statusEffect.StatusEffect;
-import status.ArcaneBlastEffect;
+import entity.statusEffect.*; // Import the status package to access PoisonEffect
 
 public abstract class Combatant {
     protected String name;
@@ -29,16 +27,33 @@ public abstract class Combatant {
         this.hp = Math.min(this.hp + amount, this.maxHp);
     }
 
-    public void addStatusEffect(PoisonEffect effect){
-        activeEffects.add(effect);
-        poisonEffect.apply(this);
+    public void addStatusEffect(StatusEffect effect){
+        if (effect != null && !activeEffects.contains(effect)) {
+            activeEffects.add(effect);
+        }
     }
 
+    public void removeStatusEffect(StatusEffect effect) {
+        activeEffects.remove(effect);
+    }
+
+    /**
+     * Updates effects every turn. 
+     * Modified to trigger damage-over-time for PoisonEffect specifically.
+     */
     public void updateEffects(){
         Iterator<StatusEffect> it = activeEffects.iterator();
         while (it.hasNext()){
             StatusEffect effect = it.next();
-            effect.decreaseDuration();
+            
+            // Logic Change: If the effect is Poison, use its specific damage-per-turn method
+            if (effect instanceof PoisonEffect) {
+                ((PoisonEffect) effect).decreaseDuration(this);
+            } else {
+                effect.decreaseDuration();
+            }
+
+            // Standard check: remove effect if duration is over
             if (effect.getDuration() <= 0){
                 effect.remove(this);
                 it.remove();
@@ -47,7 +62,7 @@ public abstract class Combatant {
     }
 
     public boolean hasEffect(String effectName) {
-        return activeEffects.stream().anyMatch(e -> e.getName().equals(effectName));
+        return activeEffects.stream().anyMatch(e -> e.getName().equalsIgnoreCase(effectName));
     }
 
     public boolean isAlive(){return hp > 0;}
@@ -57,10 +72,8 @@ public abstract class Combatant {
     public int getAttack(){return attack;}
     public int getDefense(){return defense;}
     public int getSpeed(){return speed;}
+    
     public void setAttack(int attack){this.attack = attack;}
     public void setDefense(int defense){this.defense = defense;}
-
-    public abstract void addStatusEffect(ArcaneBlastEffect arcaneBlastEffect);
-
-    public abstract void addStatusEffect(status.PoisonEffect poisonEffect);
+    public void setHp(int hp){this.hp = hp;}
 }
