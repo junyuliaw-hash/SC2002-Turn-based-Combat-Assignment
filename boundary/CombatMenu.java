@@ -1,171 +1,417 @@
 package boundary;
 
-import entity.combatants.Player;
-import entity.combatants.Enemy;
-import entity.items.Item;
 import control.BattleEngine;
+import domain.combatants.Enemy;
+import domain.combatants.Player;
+import items.Item;
 
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Boundary class responsible for all CLI interactions.
+ * Handles display of game state and collection of player input.
+ * Separated from battle logic in accordance with SRP and layered architecture.
+ */
 public class CombatMenu {
 
     private Scanner scanner;
     private BattleEngine engine;
+
+    // -----------------------------------------------------------------------
+    // Constructor
+    // -----------------------------------------------------------------------
 
     public CombatMenu(BattleEngine engine) {
         this.scanner = new Scanner(System.in);
         this.engine = engine;
     }
 
+    // -----------------------------------------------------------------------
+    // Loading / Setup Screens
+    // -----------------------------------------------------------------------
+
     /**
-     * Displays the current game state including player and enemy info.
+     * Displays the loading screen with player options, attributes, items, and
+     * difficulty selection at game start.
+     */
+    public void displayLoadingScreen() {
+        System.out.println("============================================================");
+        System.out.println("         WELCOME TO TURN-BASED COMBAT ARENA");
+        System.out.println("============================================================");
+        System.out.println();
+
+        System.out.println("=== AVAILABLE PLAYERS ===");
+        System.out.println("[1] Warrior");
+        System.out.println("    HP: 260 | ATK: 40 | DEF: 20 | SPD: 30");
+        System.out.println("    Special Skill: Shield Bash");
+        System.out.println("      -> Deal BasicAttack damage to selected enemy.");
+        System.out.println("         Target is stunned for the current turn and next turn.");
+        System.out.println();
+        System.out.println("[2] Wizard");
+        System.out.println("    HP: 200 | ATK: 50 | DEF: 10 | SPD: 20");
+        System.out.println("    Special Skill: Arcane Blast");
+        System.out.println("      -> Deal BasicAttack damage to ALL enemies.");
+        System.out.println("         Each enemy defeated adds +10 ATK (until end of level).");
+        System.out.println();
+
+        System.out.println("=== AVAILABLE ENEMIES ===");
+        System.out.println("Goblin  | HP: 55  | ATK: 35 | DEF: 15 | SPD: 25");
+        System.out.println("Wolf    | HP: 40  | ATK: 45 | DEF: 5  | SPD: 35");
+        System.out.println();
+
+        System.out.println("=== AVAILABLE ITEMS ===");
+        System.out.println("  [1] Potion      - Heal 100 HP (capped at max HP)");
+        System.out.println("  [2] Power Stone - Trigger special skill for free (no cooldown change)");
+        System.out.println("  [3] Smoke Bomb  - Enemy attacks deal 0 damage this turn and next");
+        System.out.println();
+
+        System.out.println("=== DIFFICULTY LEVELS ===");
+        System.out.println("  [1] Easy   - Initial: 3 Goblins");
+        System.out.println("  [2] Medium - Initial: 1 Goblin + 1 Wolf | Backup: 2 Wolves");
+        System.out.println("  [3] Hard   - Initial: 2 Goblins          | Backup: 1 Goblin + 2 Wolves");
+        System.out.println();
+    }
+
+    // -----------------------------------------------------------------------
+    // During Gameplay: State Display
+    // -----------------------------------------------------------------------
+
+    /**
+     * Displays the current game state — HP, status effects, inventory, round info.
+     *
+     * @param players list containing the active player
+     * @param enemies list of all enemies (alive and dead)
      */
     public void displayGameState(List<Player> players, List<Enemy> enemies) {
-        System.out.println("========== BATTLE STATUS ==========");
-        System.out.println("-- Players --");
+        System.out.println();
+        System.out.println("------------------------------------------------------------");
+        System.out.printf("  ROUND %d%n", engine.getCurrentRound());
+        System.out.println("------------------------------------------------------------");
+
+        // Player status
         for (Player player : players) {
-            System.out.printf("  %s | HP: %d/%d%n",
-                    player.getName(), player.getHp(), player.getMaxHp());
-        }
-        System.out.println("-- Enemies --");
-        for (Enemy enemy : enemies) {
-            System.out.printf("  %s | HP: %d/%d%n",
-                    enemy.getName(), enemy.getHp(), enemy.getMaxHp());
-        }
-        System.out.println("====================================");
-    }
+            System.out.printf("  [Player] %s | HP: %d/%d | ATK: %d | DEF: %d | SPD: %d%n",
+                    player.getName(),
+                    player.getHp(),
+                    player.getMaxHp(),
+                    player.getAttack(),
+                    player.getDefense(),
+                    player.getSpeed());
 
-    /**
-     * Prompts the user to select a player from the list.
-     */
-    public Player promptPlayerSelection() {
-        List<Player> players = engine.getPlayer() != null
-                ? List.of(engine.getPlayer())
-                : List.of();
+            // Inventory
+            List<Item> inventory = player.getInventory();
+            if (!inventory.isEmpty()) {
+                System.out.print("    Items: ");
+                for (int i = 0; i < inventory.size(); i++) {
+                    System.out.printf("[%d] %s  ", i + 1, inventory.get(i).getName());
+                }
+                System.out.println();
+            } else {
+                System.out.println("    Items: None");
+            }
 
-        System.out.println("Select a player:");
-        for (int i = 0; i < players.size(); i++) {
-            System.out.printf("  [%d] %s%n", i + 1, players.get(i).getName());
-        }
-
-        int choice = readIntInput(1, players.size());
-        return players.get(choice - 1);
-    }
-
-    /**
-     * Prompts the player to select an item from their inventory.
-     */
-    public Player promptItemSelection() {
-        Player player = engine.getPlayer();
-        List<Item> inventory = player.getInventory();
-
-        if (inventory.isEmpty()) {
-            System.out.println("No items in inventory.");
-            return player;
-        }
-
-        System.out.println("Select an item to use:");
-        for (int i = 0; i < inventory.size(); i++) {
-            System.out.printf("  [%d] %s%n", i + 1, inventory.get(i).getName());
-        }
-
-        int choice = readIntInput(1, inventory.size());
-        player.useItem(choice - 1, engine.getEnemies());
-        return player;
-    }
-
-    /**
-     * Prompts the user to select a difficulty level (returns level number).
-     */
-    public int promptDifficultySelection() {
-        System.out.println("Select Difficulty:");
-        System.out.println("  [1] Easy");
-        System.out.println("  [2] Normal");
-        System.out.println("  [3] Hard");
-
-        return readIntInput(1, 3);
-    }
-
-    /**
-     * Prompts the player to choose an action during their turn.
-     * Returns the chosen action index:
-     *   1 = Basic Attack
-     *   2 = Defend
-     *   3 = Use Item
-     *   4 = Use Special Skill
-     */
-    public int promptAction(Player player) {
-        System.out.println("\n" + player.getName() + "'s turn. Choose an action:");
-        System.out.println("  [1] Basic Attack");
-        System.out.println("  [2] Defend");
-        System.out.println("  [3] Use Item");
-        System.out.printf("  [4] Use Special Skill (%s) [%s]%n",
-                player.getSpecialSkill().getName(),
-                player.getSpecialSkill().isReady() ? "Ready" : "Cooldown: " + player.getSpecialSkill().getCooldown());
-
-        return readIntInput(1, 4);
-    }
-
-    /**
-     * Prompts the player to select a target enemy.
-     */
-    public Enemy promptTarget(List<Enemy> enemies) {
-        System.out.println("Select a target:");
-        for (int i = 0; i < enemies.size(); i++) {
-            Enemy e = enemies.get(i);
-            System.out.printf("  [%d] %s | HP: %d/%d%n",
-                    i + 1, e.getName(), e.getHp(), e.getMaxHp());
-        }
-
-        int choice = readIntInput(1, enemies.size());
-        return enemies.get(choice - 1);
-    }
-
-    /**
-     * Displays the victory screen with end-of-game stats.
-     */
-    public void displayVictoryScreen(int rounds, int hp, List<Item> items) {
-        System.out.println("\n========== VICTORY! ==========");
-        System.out.printf("Rounds survived : %d%n", rounds);
-        System.out.printf("Remaining HP    : %d%n", hp);
-        System.out.print("Items remaining : ");
-        if (items.isEmpty()) {
-            System.out.println("None");
-        } else {
-            items.forEach(item -> System.out.print(item.getName() + " "));
-            System.out.println();
-        }
-        System.out.println("==============================");
-    }
-
-    /**
-     * Displays the defeat screen with end-of-game stats.
-     */
-    public void displayDefeatScreen(int rounds, int enemiesLeft) {
-        System.out.println("\n========== DEFEAT ==========");
-        System.out.printf("Rounds survived  : %d%n", rounds);
-        System.out.printf("Enemies remaining: %d%n", enemiesLeft);
-        System.out.println("============================");
-    }
-
-    // -------------------------
-    // Private helper
-    // -------------------------
-
-    /**
-     * Reads and validates an integer input within [min, max].
-     */
-    private int readIntInput(int min, int max) {
-        int input = -1;
-        while (input < min || input > max) {
-            System.out.printf("Enter a number (%d-%d): ", min, max);
-            try {
-                input = Integer.parseInt(scanner.nextLine().trim());
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a number.");
+            // Special skill cooldown
+            if (player.getSpecialSkill() != null) {
+                int cd = player.getSpecialSkill().getCooldown();
+                String cdStr = (cd == 0) ? "READY" : cd + " round(s)";
+                System.out.printf("    Special Skill [%s] - Cooldown: %s%n",
+                        player.getSpecialSkill().getName(), cdStr);
             }
         }
-        return input;
+
+        System.out.println();
+
+        // Enemy status
+        System.out.println("  [Enemies]");
+        if (enemies.isEmpty()) {
+            System.out.println("    No enemies present.");
+        } else {
+            for (int i = 0; i < enemies.size(); i++) {
+                Enemy e = enemies.get(i);
+                String aliveStatus = e.isAlive() ? "" : " [ELIMINATED]";
+                System.out.printf("    [%d] %s | HP: %d/%d | ATK: %d | DEF: %d | SPD: %d%s%n",
+                        i + 1,
+                        e.getName(),
+                        e.getHp(),
+                        e.getMaxHp(),
+                        e.getAttack(),
+                        e.getDefense(),
+                        e.getSpeed(),
+                        aliveStatus);
+            }
+        }
+
+        System.out.println("------------------------------------------------------------");
+    }
+
+    // -----------------------------------------------------------------------
+    // Player Selection Prompts
+    // -----------------------------------------------------------------------
+
+    /**
+     * Prompts the user to select a player class (Warrior or Wizard).
+     *
+     * @return 1 for Warrior, 2 for Wizard
+     */
+    public int promptPlayerSelection() {
+        System.out.println("Select your player:");
+        System.out.println("  [1] Warrior");
+        System.out.println("  [2] Wizard");
+        return readIntInRange("Enter choice: ", 1, 2);
+    }
+
+    /**
+     * Prompts the user to select two items (duplicates allowed).
+     * Returns the item choices as an array of indices [firstItemIndex, secondItemIndex].
+     *
+     * @return int array of length 2 with item selections (1-based indices)
+     */
+    public int[] promptItemSelection() {
+        System.out.println();
+        System.out.println("Select Item 1 (you may pick the same item twice):");
+        System.out.println("  [1] Potion");
+        System.out.println("  [2] Power Stone");
+        System.out.println("  [3] Smoke Bomb");
+        int item1 = readIntInRange("Enter choice: ", 1, 3);
+
+        System.out.println("Select Item 2:");
+        System.out.println("  [1] Potion");
+        System.out.println("  [2] Power Stone");
+        System.out.println("  [3] Smoke Bomb");
+        int item2 = readIntInRange("Enter choice: ", 1, 3);
+
+        return new int[]{item1, item2};
+    }
+
+    /**
+     * Prompts the user to select a difficulty level.
+     *
+     * @return integer level number: 1 (Easy), 2 (Medium), or 3 (Hard)
+     */
+    public int promptDifficultySelection() {
+        System.out.println();
+        System.out.println("Select difficulty level:");
+        System.out.println("  [1] Easy   - 3 Goblins");
+        System.out.println("  [2] Medium - 1 Goblin + 1 Wolf (Backup: 2 Wolves)");
+        System.out.println("  [3] Hard   - 2 Goblins (Backup: 1 Goblin + 2 Wolves)");
+        return readIntInRange("Enter choice: ", 1, 3);
+    }
+
+    // -----------------------------------------------------------------------
+    // In-Turn Action / Target Prompts
+    // -----------------------------------------------------------------------
+
+    /**
+     * Prompts the active player to choose an action for their turn.
+     * Shows only available actions (e.g. Item action hidden if inventory is empty,
+     * Special Skill greyed out if on cooldown).
+     *
+     * @param player the player whose turn it is
+     * @return integer action code:
+     *         1 = BasicAttack, 2 = Defend, 3 = Item, 4 = SpecialSkill
+     */
+    public int promptAction(Player player) {
+        System.out.println();
+        System.out.printf("  %s's Turn — Choose an action:%n", player.getName());
+        System.out.println("  [1] Basic Attack");
+        System.out.println("  [2] Defend  (+10 DEF this round and next)");
+
+        // Show Item option only if inventory is non-empty
+        if (!player.getInventory().isEmpty()) {
+            System.out.println("  [3] Use Item");
+        } else {
+            System.out.println("  [3] Use Item  (no items remaining)");
+        }
+
+        // Show Special Skill with cooldown info
+        if (player.getSpecialSkill() != null) {
+            if (player.getSpecialSkill().isReady()) {
+                System.out.printf("  [4] Special Skill: %s  (READY)%n",
+                        player.getSpecialSkill().getName());
+            } else {
+                System.out.printf("  [4] Special Skill: %s  (Cooldown: %d round(s))%n",
+                        player.getSpecialSkill().getName(),
+                        player.getSpecialSkill().getCooldown());
+            }
+        }
+
+        // Validate input considering availability
+        while (true) {
+            int choice = readIntInRange("Enter action: ", 1, 4);
+
+            if (choice == 3 && player.getInventory().isEmpty()) {
+                System.out.println("  You have no items. Please choose another action.");
+                continue;
+            }
+            if (choice == 4 && player.getSpecialSkill() != null && !player.getSpecialSkill().isReady()) {
+                System.out.println("  Special Skill is on cooldown. Please choose another action.");
+                continue;
+            }
+            return choice;
+        }
+    }
+
+    /**
+     * Prompts the player to select an item from their inventory to use.
+     *
+     * @param player the player using the item
+     * @return 0-based index of the selected item in the player's inventory
+     */
+    public int promptItemChoice(Player player) {
+        List<Item> inventory = player.getInventory();
+        System.out.println("  Select an item to use:");
+        for (int i = 0; i < inventory.size(); i++) {
+            System.out.printf("    [%d] %s%n", i + 1, inventory.get(i).getName());
+        }
+        return readIntInRange("Enter item number: ", 1, inventory.size()) - 1;
+    }
+
+    /**
+     * Prompts the player to select a target enemy from the list of alive enemies.
+     *
+     * @param enemies list of all enemies (alive and dead)
+     * @return the selected alive Enemy
+     */
+    public Enemy promptTarget(List<Enemy> enemies) {
+        // Collect only alive enemies
+        List<Enemy> alive = new java.util.ArrayList<>();
+        for (Enemy e : enemies) {
+            if (e.isAlive()) alive.add(e);
+        }
+
+        System.out.println("  Select a target:");
+        for (int i = 0; i < alive.size(); i++) {
+            System.out.printf("    [%d] %s (HP: %d/%d)%n",
+                    i + 1,
+                    alive.get(i).getName(),
+                    alive.get(i).getHp(),
+                    alive.get(i).getMaxHp());
+        }
+
+        int choice = readIntInRange("Enter target number: ", 1, alive.size());
+        return alive.get(choice - 1);
+    }
+
+    // -----------------------------------------------------------------------
+    // Game Completion Screens
+    // -----------------------------------------------------------------------
+
+    /**
+     * Displays the victory screen with statistics.
+     *
+     * @param rounds    total number of rounds completed
+     * @param hp        player's remaining HP
+     * @param items     player's remaining items in inventory
+     */
+    public void displayVictoryScreen(int rounds, int hp, List<Item> items) {
+        System.out.println();
+        System.out.println("============================================================");
+        System.out.println("       *** VICTORY! ***");
+        System.out.println("  Congratulations, you have defeated all your enemies!");
+        System.out.println("------------------------------------------------------------");
+        System.out.printf("  Remaining HP   : %d%n", hp);
+        System.out.printf("  Total Rounds   : %d%n", rounds);
+        System.out.print("  Remaining Items: ");
+        if (items == null || items.isEmpty()) {
+            System.out.println("None");
+        } else {
+            for (Item item : items) {
+                System.out.print(item.getName() + "  ");
+            }
+            System.out.println();
+        }
+        System.out.println("============================================================");
+        System.out.println();
+        promptPostGameOptions();
+    }
+
+    /**
+     * Displays the defeat screen with statistics.
+     *
+     * @param rounds       total rounds the player survived
+     * @param enemiesLeft  number of enemies still alive at defeat
+     */
+    public void displayDefeatScreen(int rounds, int enemiesLeft) {
+        System.out.println();
+        System.out.println("============================================================");
+        System.out.println("       *** DEFEATED ***");
+        System.out.println("  Don't give up, try again!");
+        System.out.println("------------------------------------------------------------");
+        System.out.printf("  Enemies Remaining  : %d%n", enemiesLeft);
+        System.out.printf("  Total Rounds Survived: %d%n", rounds);
+        System.out.println("============================================================");
+        System.out.println();
+        promptPostGameOptions();
+    }
+
+    // -----------------------------------------------------------------------
+    // Post-Game Options
+    // -----------------------------------------------------------------------
+
+    /**
+     * Prompts the player to replay, start a new game, or exit after game ends.
+     *
+     * @return 1 = replay same settings, 2 = new game (return to home), 3 = exit
+     */
+    public int promptPostGameOptions() {
+        System.out.println("  What would you like to do?");
+        System.out.println("  [1] Replay with the same settings");
+        System.out.println("  [2] Start a new game");
+        System.out.println("  [3] Exit");
+        return readIntInRange("Enter choice: ", 1, 3);
+    }
+
+    // -----------------------------------------------------------------------
+    // Utility / Informational Displays
+    // -----------------------------------------------------------------------
+
+    /**
+     * Displays a message indicating a backup enemy spawn has occurred.
+     *
+     * @param backupEnemies list of newly spawned enemies
+     */
+    public void displayBackupSpawn(List<Enemy> backupEnemies) {
+        System.out.println();
+        System.out.println("  *** BACKUP SPAWN TRIGGERED! ***");
+        System.out.println("  New enemies have entered the battle:");
+        for (Enemy e : backupEnemies) {
+            System.out.printf("    -> %s (HP: %d | ATK: %d | DEF: %d | SPD: %d)%n",
+                    e.getName(), e.getMaxHp(), e.getAttack(), e.getDefense(), e.getSpeed());
+        }
+        System.out.println();
+    }
+
+    /**
+     * Displays a general informational message to the player.
+     *
+     * @param message the message to display
+     */
+    public void displayMessage(String message) {
+        System.out.println("  " + message);
+    }
+
+    // -----------------------------------------------------------------------
+    // Internal Helper
+    // -----------------------------------------------------------------------
+
+    /**
+     * Reads an integer from stdin within [min, max] inclusive.
+     * Re-prompts on invalid input.
+     */
+    private int readIntInRange(String prompt, int min, int max) {
+        while (true) {
+            System.out.print(prompt);
+            try {
+                String line = scanner.nextLine().trim();
+                int value = Integer.parseInt(line);
+                if (value >= min && value <= max) {
+                    return value;
+                }
+                System.out.printf("  Please enter a number between %d and %d.%n", min, max);
+            } catch (NumberFormatException e) {
+                System.out.println("  Invalid input. Please enter a number.");
+            }
+        }
     }
 }
