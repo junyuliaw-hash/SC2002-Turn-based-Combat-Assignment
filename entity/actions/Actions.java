@@ -48,7 +48,7 @@ public class SpecialSkillAction implements Action {
                     enemy.takeDamage(damage);
                     if (!enemy.isAlive()) {
                         System.out.println("Arcane Blast defeated " + enemy.getName() + "! Wizard gains +10 Attack.");
-                        // ***Increase Wizard Attack logic here
+                        Wizard.attack += 10; 
                     }
                 }
             }
