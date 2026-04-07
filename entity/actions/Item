@@ -1,1 +1,18 @@
+package entity.actions;
 
+public class Item implements Action {
+    private Item item;
+    private List<Combatant> allEnemies;
+
+    public ItemAction(Item item, List<Combatant> allEnemies) {
+        this.item = item;
+        this.allEnemies = allEnemies;
+    }
+
+    @Override
+    public void execute(Combatant executor, Combatant target) {
+        if (item != null) {
+            item.use(executor, allEnemies); // Uses the Item 
+        }
+    }
+}
