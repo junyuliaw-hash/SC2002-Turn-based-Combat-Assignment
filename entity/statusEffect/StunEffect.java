@@ -1,6 +1,4 @@
-package entity.statusEffect;
-
-import entity.combatants.Combatant;
+package status;
 
 public class StunEffect extends StatusEffect {
     public StunEffect() {
@@ -8,8 +6,17 @@ public class StunEffect extends StatusEffect {
     }
 
     @Override
-    public void apply(Combatant target) {}
+    public void apply(Combatant target) {
+        target.addStatusEffect(this);
+    }
 
     @Override
-    public void remove(Combatant target) {}
+    public void remove(Combatant target) {
+        target.removeStatusEffect(this);
+    }
+
+    @Override
+    public void decreaseDuration() {
+            duration--;
+    }
 }

@@ -1,8 +1,7 @@
-package entity.statusEffect;
-
-import entity.combatants.Combatant;
+package status;
 
 public class DefendEffect extends StatusEffect {
+    private int defenseBoost = 10;
     public DefendEffect() { 
         super(2, "Defend"); 
     }
@@ -10,12 +9,12 @@ public class DefendEffect extends StatusEffect {
     @Override
     public void apply(Combatant target) {
         int currentDefense = target.getDefense();
-        target.setDefense(currentDefense + 10);
+        target.setDefense(currentDefense + defenseBoost);
     }
 
     @Override
     public void remove(Combatant target) {
         int currentDefense = target.getDefense();
-        target.setDefense(currentDefense - 10);
+        target.setDefense(currentDefense - defenseBoost);
     }
 }

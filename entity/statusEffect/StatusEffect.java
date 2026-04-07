@@ -1,6 +1,4 @@
-package entity.statusEffect;
-
-import entity.combatants.Combatant;
+package status;
 
 public abstract class StatusEffect {
     protected int duration;
@@ -10,20 +8,17 @@ public abstract class StatusEffect {
         this.duration = duration;
         this.effectName = effectName;
     }
-
     public abstract void apply(Combatant target);
     public abstract void remove(Combatant target);
-
     public void decreaseDuration() {
-        if (duration > 0) duration--;
+        if (duration > 0) {
+            duration--;
+        }
     }
-
     public int getDuration() {
         return duration;
     }
-
-    public String getEffectName() {
+    public String getName() {
         return effectName;
     }
-    
 }
