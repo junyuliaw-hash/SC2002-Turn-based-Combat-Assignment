@@ -6,11 +6,11 @@ import entity.combatants.Combatant;
 import entity.combatants.Enemy; 
 import entity.items.Item; 
 
-public class Item implements Action {
+public class UseItem implements Action {
     private Item item;
     private List<Combatant> allEnemies;
 
-    public Item(Item item, List<Combatant> allEnemies) {
+    public UseItem(Item item, List<Combatant> allEnemies) {
         this.item = item;
         this.allEnemies = allEnemies;
     }
