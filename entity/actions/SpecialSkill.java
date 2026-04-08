@@ -1,7 +1,7 @@
 package entity.actions;
 
-import domain.combatants.Enemy;
-import domain.combatants.Player;
+import entity.combatants.Enemy;
+import entity.combatants.Player;
 import java.util.List;
 
 public interface SpecialSkill {
