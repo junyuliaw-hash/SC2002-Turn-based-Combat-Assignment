@@ -21,9 +21,9 @@ public abstract class Player extends Combatant {
     public void takeTurn(BattleEngine engine){
         CombatMenu ui = engine.getUI();
         List<Enemy> enemies = engine.getEnemies();
-        
+        tickCooldown();
         int actionChoice = ui.promptAction(this);
-        
+
         switch (actionChoice) {
             case 1:
                 Enemy target = ui.promptTarget(enemies);
@@ -37,9 +37,11 @@ public abstract class Player extends Combatant {
                 break;
                 
             case 3: // Use Item
-                if (!inventory.isEmpty()){
-                    int itemIndex = ui.promptItemChoice(this);
-
+                int itemIndex = ui.promptItemChoice(this);
+                if (itemIndex >= 0 && itemIndex < inventory.size()){
+                    Item selectedItem = inventory.get(itemIndex);
+                    new UseItem(selectedItem, enemies).execute(this, null);
+                    inventory.remove(itemIndex);  // Remove item after use
                 }
                 break;
                 
@@ -67,6 +69,10 @@ public abstract class Player extends Combatant {
         }else{
             System.out.println("Skill is on cooldown!");
         }
+    }
+
+    private void tickCooldown(){
+        specialSkill.updateCooldown();
     }
 
     public List<Item> getInventory(){return inventory;}
