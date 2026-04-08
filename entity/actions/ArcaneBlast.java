@@ -19,7 +19,7 @@ public class ArcaneBlast extends SpecialSkill {
             if (!enemy.isAlive()) continue;
 
             int damage = Math.max(0, player.getAttack() - enemy.getDefense()); 
-            enemy.takeDamage(damage);
+            enemy.applyDamage(damage);
             System.out.println(enemy.getName() + " took " + damage + " damage.");
 
             if (!enemy.isAlive()) {

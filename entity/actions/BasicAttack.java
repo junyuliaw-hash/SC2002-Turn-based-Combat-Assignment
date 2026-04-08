@@ -12,7 +12,7 @@ public class BasicAttack implements Action {
             damage = 0;
             System.out.println(target.getName() + " is hidden in smoke! 0 damage taken.");
         } else {
-            target.takeDamage(damage);
+            target.applyDamage(damage);
             System.out.println(executor.getName() + " attacks " + target.getName() + " for " + damage + " damage!");
         }
     }
