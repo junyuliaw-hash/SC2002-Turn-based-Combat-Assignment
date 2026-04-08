@@ -80,7 +80,6 @@ public class BattleEngine {
             if (checkGameEndCondition()) break;
         }
 
-        tickCooldowns(turnOrder);
 
         ui.displayGameState(List.of(player), enemies);
     }
