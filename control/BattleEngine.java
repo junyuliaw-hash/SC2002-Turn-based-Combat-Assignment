@@ -67,7 +67,7 @@ public class BattleEngine {
 
             if (combatant.hasEffect("Stun")) {
                 ui.displayMessage(combatant.getName() + " is stunned and skips their turn!");
-                // combatant.decrementStun(); // method missing in Combatant — cannot fix without modifying Combatant.java
+                combatant.updateEffects();
                 continue;
             }
 
@@ -123,7 +123,7 @@ public class BattleEngine {
 
     private void tickCooldowns(List<Combatant> participated) {
         for (Combatant c : participated) {
-            //c.tickCooldown(); // method missing in Combatant — cannot fix without modifying Combatant.java
+            c.tickCooldown();
         }
     }
 
