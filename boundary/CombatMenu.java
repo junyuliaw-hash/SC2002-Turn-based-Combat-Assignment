@@ -4,9 +4,9 @@ import control.BattleEngine;
 import entity.combatants.Enemy;
 import entity.combatants.Player;
 import entity.items.Item;
-
 import java.util.List;
 import java.util.Scanner;
+
 
 /**
  * Boundary class responsible for all CLI interactions.
@@ -22,8 +22,17 @@ public class CombatMenu {
     // Constructor
     // -----------------------------------------------------------------------
 
-    public CombatMenu(BattleEngine engine) {
+    // -----------------------------------------------------------------------
+    // Constructor
+    // -----------------------------------------------------------------------
+
+    // 1. Remove BattleEngine from the constructor
+    public CombatMenu() {
         this.scanner = new Scanner(System.in);
+    }
+
+    // 2. Add this setter method so we can link it later
+    public void setEngine(BattleEngine engine) {
         this.engine = engine;
     }
 
