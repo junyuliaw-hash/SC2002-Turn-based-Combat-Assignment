@@ -121,12 +121,6 @@ public class BattleEngine {
         e.takeTurn(this);
     }
 
-    private void tickCooldowns(List<Combatant> participated) {
-        for (Combatant c : participated) {
-            c.tickCooldown();
-        }
-    }
-
     private boolean allEnemiesDefeated() {
         return enemies.stream().noneMatch(Combatant::isAlive);
     }
