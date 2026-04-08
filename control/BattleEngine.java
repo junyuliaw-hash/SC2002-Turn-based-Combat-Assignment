@@ -3,9 +3,6 @@ package control;
 import entity.combatants.Combatant;
 import entity.combatants.Player;
 import entity.combatants.Enemy;
-import control.DifficultyLevel;
-import control.SpeedBasedStrategy;
-import control.TurnOrderStrategy;
 import boundary.CombatMenu;
 
 import java.util.ArrayList;
@@ -129,12 +126,6 @@ public class BattleEngine {
         all.add(player);
         all.addAll(enemies);
         return all;
-    }
-
-    private List<Enemy> getAliveEnemies() {
-        return enemies.stream()
-                      .filter(Combatant::isAlive)
-                      .collect(java.util.stream.Collectors.toList());
     }
 
     private void displayEndScreen() {
