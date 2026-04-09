@@ -33,6 +33,7 @@ public class TurnManager {
     }
 
     private void executeTurn() {
+        this.currentActor.takeTurn(engine);
     }
 
     private boolean isBattleActive() {
