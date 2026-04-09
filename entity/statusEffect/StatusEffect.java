@@ -27,3 +27,4 @@ public abstract class StatusEffect {
         return effectName;
     }
 }
+// sync

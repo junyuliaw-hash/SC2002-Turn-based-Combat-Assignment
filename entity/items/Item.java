@@ -7,3 +7,4 @@ public interface Item {
         void use(Combatant player, Combatant target);
         void use(Combatant player, List<Enemy> targets);
 }
+// sync
