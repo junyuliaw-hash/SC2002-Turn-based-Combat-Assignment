@@ -1,7 +1,7 @@
-package items;
+package entity.items;
 
-import status.SmokeBombEffect;
 import entity.combatants.*;
+import entity.statusEffect.SmokeBombEffect;
 import java.util.List;
 
 public class SmokeBomb implements Item {

@@ -1,4 +1,4 @@
-package status;
+package entity.statusEffect;
 import entity.combatants.*;
 import java.util.List;
 
