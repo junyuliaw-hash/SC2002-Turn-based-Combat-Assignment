@@ -22,10 +22,6 @@ public class CombatMenu {
     // Constructor
     // -----------------------------------------------------------------------
 
-    // -----------------------------------------------------------------------
-    // Constructor
-    // -----------------------------------------------------------------------
-
     // 1. Remove BattleEngine from the constructor
     public CombatMenu() {
         this.scanner = new Scanner(System.in);
