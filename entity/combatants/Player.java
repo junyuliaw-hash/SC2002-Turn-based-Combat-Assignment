@@ -53,7 +53,9 @@ public abstract class Player extends Combatant {
     }
 
     public void performDefend(){
-        this.addStatusEffect(new DefendEffect());
+        DefendEffect effect = new DefendEffect();
+        effect.apply(this);
+        this.addStatusEffect(effect);
     }
 
     public void useItem(int itemIndex, List<Enemy> enemies){
@@ -66,6 +68,8 @@ public abstract class Player extends Combatant {
     public void addItem(Item item){
         if (inventory.size() < 2){
             inventory.add(item);
+        } else {
+            System.out.println("Inventory full!");
         }
     }
 
@@ -79,7 +83,9 @@ public abstract class Player extends Combatant {
     }
 
     private void tickCooldown(){
-        specialSkill.updateCooldown();
+        if (specialSkill != null) {
+            specialSkill.updateCooldown();
+        }
     }
 
     public List<Item> getInventory(){return inventory;}
