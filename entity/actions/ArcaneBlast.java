@@ -26,7 +26,7 @@ public class ArcaneBlast extends AbstractSkill {
         }
         if (kills > 0) {
             int bonus = kills * 10;
-            new ArcaneBlastEffect().apply(user);;
+            user.addStatusEffect(new ArcaneBlastEffect(bonus));
             System.out.println("Arcane Blast defeated " + kills + " enemies! Attack increased by " + bonus + ".");
         }
     }
