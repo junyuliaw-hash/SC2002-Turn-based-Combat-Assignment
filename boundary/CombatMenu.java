@@ -265,6 +265,10 @@ public class CombatMenu {
      */
     public int promptItemChoice(Player player) {
         List<Item> inventory = player.getInventory();
+        if (inventory.isEmpty()) {
+            System.out.println("  Inventory is empty!");
+            return -1;
+        }
         System.out.println("  Select an item to use:");
         for (int i = 0; i < inventory.size(); i++) {
             System.out.printf("    [%d] %s%n", i + 1, inventory.get(i).getName());
