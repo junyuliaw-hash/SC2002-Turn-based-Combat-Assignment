@@ -56,7 +56,6 @@ public abstract class Combatant {
             // Standard check: remove effect if duration is over
             if (effect.getDuration() <= 0){
                 effect.remove(this);
-                it.remove();
             }
         }
     }
