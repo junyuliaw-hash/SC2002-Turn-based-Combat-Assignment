@@ -332,7 +332,6 @@ public class CombatMenu {
         }
         System.out.println("============================================================");
         System.out.println();
-        promptPostGameOptions();
     }
 
     /**
@@ -351,7 +350,6 @@ public class CombatMenu {
         System.out.printf("  Total Rounds Survived: %d%n", rounds);
         System.out.println("============================================================");
         System.out.println();
-        promptPostGameOptions();
     }
 
     // -----------------------------------------------------------------------
