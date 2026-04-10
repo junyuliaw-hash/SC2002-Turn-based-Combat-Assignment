@@ -6,8 +6,9 @@ import entity.combatants.*;
 
 public class ArcaneBlastEffect extends StatusEffect {
     private int attackBoost = 10;
-    public ArcaneBlastEffect() { 
-        super(-1, "Arcane Blast"); // -1 or a large number for "until end of level"
+    public ArcaneBlastEffect(int boost) {
+        super(-1, "Arcane Blast");
+        this.attackBoost = boost;
     }
 
     @Override
