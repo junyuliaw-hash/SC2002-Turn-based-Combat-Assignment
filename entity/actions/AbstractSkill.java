@@ -26,6 +26,11 @@ public abstract class AbstractSkill implements SpecialSkill {
     }
 
     @Override
+    public void refreshCooldown() {
+        currentCooldown = 0;
+    }
+
+    @Override
     public String getName() {
         return name;
     }

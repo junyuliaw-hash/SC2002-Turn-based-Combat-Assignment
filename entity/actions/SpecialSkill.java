@@ -10,5 +10,6 @@ public interface SpecialSkill {
     boolean isReady();
     int getCooldown();
     void resetCooldown();
+    void refreshCooldown();
     String getName();
 }
