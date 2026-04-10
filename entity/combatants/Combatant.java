@@ -37,25 +37,22 @@ public abstract class Combatant {
         activeEffects.remove(effect);
     }
 
-    /**
-     * Updates effects every turn. 
-     * Modified to trigger damage-over-time for PoisonEffect specifically.
-     */
     public void updateEffects(){
         Iterator<StatusEffect> it = activeEffects.iterator();
         while (it.hasNext()){
             StatusEffect effect = it.next();
             
-            // Logic Change: If the effect is Poison, use its specific damage-per-turn method
+            // Special check for Poison (temp solution)
             if (effect instanceof PoisonEffect) {
                 ((PoisonEffect) effect).decreaseDuration(this);
             } else {
                 effect.decreaseDuration();
             }
 
-            // Standard check: remove effect if duration is over
-            if (effect.getDuration() <= 0){
+            // == 0 to allow infinite duration using -1
+            if (effect.getDuration() == 0){
                 effect.remove(this);
+                it.remove();
             }
         }
     }
