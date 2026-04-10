@@ -13,17 +13,15 @@ public class SmokeBomb implements Item {
 
     @Override
     public void use(Combatant player, List<Enemy> targets) {
-        for (Enemy target : targets) {
-            SmokeBombEffect stun = new SmokeBombEffect();
-            stun.apply(target);
-            System.out.println(player.getName() + " used Smoke Bomb! " + target.getName() + " is stunned for 2 turns.");
-        }
+        SmokeBombEffect smoke = new SmokeBombEffect();
+        smoke.apply(player);
+        System.out.println(player.getName() + " used Smoke Bomb! Enemy attacks deal 0 damage for 2 turns.");
     }
 
     @Override
     public void use(Combatant player, Combatant target) {
-        SmokeBombEffect stun = new SmokeBombEffect();
-        stun.apply(target);
-        System.out.println(player.getName() + " used Smoke Bomb on " + target.getName() + "! " + target.getName() + " is stunned for 2 turns.");
+        SmokeBombEffect smoke = new SmokeBombEffect();
+        smoke.apply(player);
+        System.out.println(player.getName() + " used Smoke Bomb!");
     }
 }
