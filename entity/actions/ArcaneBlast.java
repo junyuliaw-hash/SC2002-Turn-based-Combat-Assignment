@@ -17,7 +17,7 @@ public class ArcaneBlast extends AbstractSkill {
         int kills = 0;
         List<Enemy> targetsCopy = new ArrayList<>(targets);
         for (Enemy target : targetsCopy) {
-            int damage = Math.max(0, user.getAttack() - target.getDefense());
+            int damage = user.getAttack();
             target.applyDamage(damage);
             System.out.println("Dealt " + damage + " damage to " + target.getName() + ".");
             if (!target.isAlive()) {

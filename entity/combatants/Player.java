@@ -48,8 +48,7 @@ public abstract class Player extends Combatant {
     }
 
     public void performBasicAttack(Enemy target){
-        int damage = Math.max(0, this.attack - target.getDefense());
-        target.applyDamage(damage);
+        target.applyDamage(attack);
     }
 
     public void performDefend(){
