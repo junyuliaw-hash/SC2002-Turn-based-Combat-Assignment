@@ -1,9 +1,5 @@
 package entity.actions;
 
-import entity.combatants.Enemy;
-import entity.combatants.Player;
-import java.util.List;
-
 public abstract class AbstractSkill implements SpecialSkill {
     protected String name;
     protected int currentCooldown = 0;
