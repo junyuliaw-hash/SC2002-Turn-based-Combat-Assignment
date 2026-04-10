@@ -1,5 +1,6 @@
 package entity.actions;
 
+import boundary.CombatMenu;
 import entity.combatants.Enemy;
 import entity.combatants.Player;
 import entity.statusEffect.StunEffect;
@@ -13,7 +14,7 @@ public class ShieldBash extends AbstractSkill {
     @Override
     public void execute(Player user, List<Enemy> targets) {
         if (targets.isEmpty()) return;
-        Enemy target = targets.get(0); // Targets selected enemy
+        Enemy target = new CombatMenu().promptTarget(targets); // Targets selected enemy
         int damage = Math.max(0, user.getAttack() - target.getDefense());
         target.applyDamage(damage);
         target.addStatusEffect(new StunEffect());
