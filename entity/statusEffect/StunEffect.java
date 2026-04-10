@@ -20,7 +20,6 @@ public class StunEffect extends StatusEffect {
 
     @Override
     public void remove(Combatant target) {
-        target.removeStatusEffect(this);
     }
 
     public void remove(List<Enemy> targets) {

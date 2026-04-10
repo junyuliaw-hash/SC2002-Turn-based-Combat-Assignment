@@ -20,7 +20,6 @@ public class ArcaneBlastEffect extends StatusEffect {
 
     @Override
     public void remove(Combatant target) {
-        target.removeStatusEffect(this);
         int currentAttack = target.getAttack();
         target.setAttack(currentAttack - attackBoost);}
 
