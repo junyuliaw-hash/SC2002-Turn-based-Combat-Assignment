@@ -64,7 +64,6 @@ public class BattleEngine {
 
             if (combatant.hasEffect("Stun")) {
                 ui.displayMessage(combatant.getName() + " is stunned and skips their turn!");
-                combatant.updateEffects();
                 continue;
             }
 
