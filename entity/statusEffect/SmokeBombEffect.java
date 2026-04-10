@@ -15,7 +15,6 @@ public class SmokeBombEffect extends StatusEffect {
 
     @Override
     public void remove(Combatant target) {
-        target.removeStatusEffect(this);
     }
 
     @Override

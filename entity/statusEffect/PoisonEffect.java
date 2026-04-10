@@ -9,7 +9,7 @@ public class PoisonEffect extends StatusEffect {
 
     // Call the parent constructor: duration of 1 turn (or more if you prefer), name "Poison"
     public PoisonEffect() {
-        super(1, "Poison Effect");
+        super(2, "Poison Effect");
     }
 
     @Override
@@ -22,7 +22,6 @@ public class PoisonEffect extends StatusEffect {
     @Override
     public void remove(Combatant target) {
         System.out.println(target.getName() + " is no longer poisoned.");
-        target.removeStatusEffect(this);
     }
 
     // Required by parent class
