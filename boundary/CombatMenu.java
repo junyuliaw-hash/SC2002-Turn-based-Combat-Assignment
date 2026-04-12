@@ -59,6 +59,11 @@ public class CombatMenu {
         System.out.println("      -> Deal BasicAttack damage to ALL enemies.");
         System.out.println("         Each enemy defeated adds +10 ATK (until end of level).");
         System.out.println();
+        System.out.println("[3] Archer");
+        System.out.println("    HP: 220 | ATK: 45 | DEF: 15 | SPD: 35");
+        System.out.println("    Special Skill: Poison Shot");
+        System.out.println("      -> Deal BasicAttack damage to selected enemy and applies Poison.");
+        System.out.println();
 
         System.out.println("=== AVAILABLE ENEMIES ===");
         System.out.println("Goblin  | HP: 55  | ATK: 35 | DEF: 15 | SPD: 25");
@@ -69,12 +74,13 @@ public class CombatMenu {
         System.out.println("  [1] Potion      - Heal 100 HP (capped at max HP)");
         System.out.println("  [2] Power Stone - Trigger special skill for free (no cooldown change)");
         System.out.println("  [3] Smoke Bomb  - Enemy attacks deal 0 damage this turn and next");
+        System.out.println("  [4] Poison      - Target takes 20 damage per turn for 2 turns");
         System.out.println();
 
         System.out.println("=== DIFFICULTY LEVELS ===");
         System.out.println("  [1] Easy   - Initial: 3 Goblins");
         System.out.println("  [2] Medium - Initial: 1 Goblin + 1 Wolf | Backup: 2 Wolves");
-        System.out.println("  [3] Hard   - Initial: 2 Goblins          | Backup: 1 Goblin + 2 Wolves");
+        System.out.println("  [3] Hard   - Initial: 2 Goblins         | Backup: 1 Goblin + 2 Wolves");
         System.out.println();
     }
 
@@ -163,7 +169,8 @@ public class CombatMenu {
         System.out.println("Select your player:");
         System.out.println("  [1] Warrior");
         System.out.println("  [2] Wizard");
-        return readIntInRange("Enter choice: ", 1, 2);
+        System.out.println("  [3] Archer");
+        return readIntInRange("Enter choice: ", 1, 3);
     }
 
     /**
@@ -178,14 +185,15 @@ public class CombatMenu {
         System.out.println("  [1] Potion");
         System.out.println("  [2] Power Stone");
         System.out.println("  [3] Smoke Bomb");
-        int item1 = readIntInRange("Enter choice: ", 1, 3);
+        System.out.println("  [4] Poison");
+        int item1 = readIntInRange("Enter choice: ", 1, 4);
 
         System.out.println("Select Item 2:");
         System.out.println("  [1] Potion");
         System.out.println("  [2] Power Stone");
         System.out.println("  [3] Smoke Bomb");
-        int item2 = readIntInRange("Enter choice: ", 1, 3);
-
+        System.out.println("  [4] Poison");
+        int item2 = readIntInRange("Enter choice: ", 1, 4);
         return new int[]{item1, item2};
     }
 

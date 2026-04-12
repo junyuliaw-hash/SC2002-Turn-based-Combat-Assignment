@@ -3,9 +3,7 @@ import control.DifficultyLevel;
 import entity.combatants.Player;
 import entity.combatants.Warrior;
 import entity.combatants.Wizard;
-import entity.items.Potion;
-import entity.items.PowerStone;
-import entity.items.SmokeBomb;
+import entity.items.*;
 import boundary.CombatMenu;
 
 public class Main {
@@ -42,6 +40,7 @@ public class Main {
                     case 1 -> myPlayer.addItem(new Potion());
                     case 2 -> myPlayer.addItem(new PowerStone());
                     case 3 -> myPlayer.addItem(new SmokeBomb());
+                    case 4 -> myPlayer.addItem(new Poison());
                 }
             }
             
