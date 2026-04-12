@@ -21,19 +21,20 @@ public enum DifficultyLevel {
     
     public List<Enemy> getInitialSpawn() {
         List<Enemy> enemies = new ArrayList<>();
+        EnemySpawner spawner = new EnemySpawner();
         switch (this) {
             case EASY -> {
-                enemies.add(new Goblin());
-                enemies.add(new Goblin());
-                enemies.add(new Goblin());
+                enemies.add(spawner.spawn(Goblin.class));
+                enemies.add(spawner.spawn(Goblin.class));
+                enemies.add(spawner.spawn(Goblin.class));
             }
             case MEDIUM -> {
-                enemies.add(new Goblin());
-                enemies.add(new Wolf());
+                enemies.add(spawner.spawn(Goblin.class));
+                enemies.add(spawner.spawn(Wolf.class));
             }
             case HARD -> {
-                enemies.add(new Goblin());
-                enemies.add(new Goblin());
+                enemies.add(spawner.spawn(Goblin.class));
+                enemies.add(spawner.spawn(Goblin.class));
             }
         }
         return enemies;
@@ -41,15 +42,16 @@ public enum DifficultyLevel {
     
     public List<Enemy> getBackupSpawn() {
         List<Enemy> enemies = new ArrayList<>();
+        EnemySpawner spawner = new EnemySpawner();
         switch (this) {
             case MEDIUM -> {
-                enemies.add(new Wolf());
-                enemies.add(new Wolf());
+                enemies.add(spawner.spawn(Wolf.class));
+                enemies.add(spawner.spawn(Wolf.class));
             }
             case HARD -> {
-                enemies.add(new Goblin());
-                enemies.add(new Wolf());
-                enemies.add(new Wolf());
+                enemies.add(spawner.spawn(Goblin.class));
+                enemies.add(spawner.spawn(Wolf.class));
+                enemies.add(spawner.spawn(Wolf.class));
             }
             default -> {} // Easy has no backup spawn // 
         }
