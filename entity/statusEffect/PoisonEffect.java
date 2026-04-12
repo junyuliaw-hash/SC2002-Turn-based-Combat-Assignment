@@ -14,8 +14,8 @@ public class PoisonEffect extends StatusEffect {
 
     @Override
     public void apply(Combatant target) {
-        target.applyDamage(damagePerTurn);
-        System.out.println(target.getName() + " takes " + damagePerTurn + " poison damage upon application.");
+        target.applyDamage(damagePerTurn + target.getDefense());
+        System.out.println("  " + target.getName() + " takes " + damagePerTurn + " poison damage upon application.");
         target.addStatusEffect(this); // Changed from PoisonEffect.this
     }
 
@@ -43,7 +43,7 @@ public class PoisonEffect extends StatusEffect {
     // Custom method called in Combatant.java
     public void decreaseDuration(Combatant target) {
         super.decreaseDuration(); // reduces the turn count
-        target.applyDamage(damagePerTurn);
-        System.out.println(target.getName() + " takes " + damagePerTurn + " poison damage from the active effect.");
+        target.applyDamage(damagePerTurn + target.getDefense());
+        System.out.println("  " + target.getName() + " takes " + damagePerTurn + " poison damage from the active effect.");
     }
 }
