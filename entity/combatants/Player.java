@@ -13,6 +13,16 @@ public abstract class Player extends Combatant {
     protected List<Item> inventory = new ArrayList<>();
     protected SpecialSkill specialSkill;
 
+    public Player(String n, int mHp, int hp, int a, int d, int s, SpecialSkill ss){
+        this.name = n;
+        this.maxHp = mHp;
+        this.hp = hp;
+        this.attack = a;
+        this.defense = d;
+        this.speed = s;
+        this.specialSkill = ss;
+    }
+
     public void takeTurn(BattleEngine engine){
         CombatMenu ui = engine.getUI();
         List<Enemy> enemies = engine.getEnemies();

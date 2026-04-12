@@ -4,11 +4,6 @@ public class Wolf extends Enemy{
     private static int idCounterWolf = 1;
     
     public Wolf() {
-        this.name = "Wolf " + (idCounterWolf++);
-        this.maxHp = 40;
-        this.hp = 40;
-        this.attack = 45;
-        this.defense = 5;
-        this.speed = 35;
+        super("Wolf", 40, 40, 45, 5, 35);
     }
 }
