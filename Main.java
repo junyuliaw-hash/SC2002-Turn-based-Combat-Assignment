@@ -1,8 +1,6 @@
 import control.BattleEngine;
 import control.DifficultyLevel;
-import entity.combatants.Player;
-import entity.combatants.Warrior;
-import entity.combatants.Wizard;
+import entity.combatants.*;
 import entity.items.*;
 import boundary.CombatMenu;
 
@@ -29,11 +27,13 @@ public class Main {
 
             // reinitialize all states (player, items, difficulty)
             Player myPlayer;
-            if (classChoice == 1) {
-                myPlayer = new Warrior();
-            } else {
-                myPlayer = new Wizard();
+            switch (classChoice) {
+                case 1 -> myPlayer = new Warrior();
+                case 2 -> myPlayer = new Wizard();
+                case 3 -> myPlayer = new Archer();
+                default -> myPlayer = new Warrior();
             }
+
             
             for (int choice : itemChoices) {
                 switch (choice) {
