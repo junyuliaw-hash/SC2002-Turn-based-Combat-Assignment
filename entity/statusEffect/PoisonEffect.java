@@ -21,7 +21,7 @@ public class PoisonEffect extends StatusEffect {
 
     @Override
     public void remove(Combatant target) {
-        System.out.println(target.getName() + " is no longer poisoned.");
+        System.out.println("  " + target.getName() + " is no longer poisoned.");
     }
 
     // Required by parent class

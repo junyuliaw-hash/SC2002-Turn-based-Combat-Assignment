@@ -20,7 +20,5 @@ public class PoisonShot extends AbstractSkill {
         
         PoisonEffect poison = new PoisonEffect();
         poison.apply(target);
-        
-        System.out.println(user.getName() + " uses Poison Shot on " + target.getName() + " for " + damage + " damage! Target POISONED.");
     }
 }

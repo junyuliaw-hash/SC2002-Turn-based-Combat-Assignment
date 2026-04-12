@@ -1,7 +1,6 @@
 package entity.combatants;
 
 import control.BattleEngine;
-import entity.actions.SpecialSkill;
 
 public abstract class Enemy extends Combatant {
     public Enemy(String n, int mHp, int hp, int a, int d, int s){
