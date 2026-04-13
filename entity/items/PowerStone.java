@@ -11,15 +11,13 @@ public class PowerStone implements Item {
 
     @Override
     public void use(Combatant player, List<Enemy> targets) {
-        ((Player) player).refreshCooldown();
-        ((Player) player).useSpecialSkill(targets);
+        ((Player) player).getSpecialSkill().execute((Player) player, targets);
         System.out.println(player.getName() + " used Power Stone! Unleashed a powerful attack!");         
     }
 
     @Override
     public void use(Combatant player, Combatant target) {
-        ((Player) player).refreshCooldown();
-        ((Player) player).useSpecialSkill(List.of((Enemy) target));
+        ((Player) player).getSpecialSkill().execute((Player) player, List.of((Enemy) target));
         System.out.println(player.getName() + " used Power Stone on " + target.getName() + "! Unleashed a powerful attack!");         
     }
     
