@@ -2,7 +2,7 @@ package entity.combatants;
 
 import control.BattleEngine;
 
-public abstract class Enemy extends Combatant {
+public class Enemy extends Combatant {
     public Enemy(String n, int mHp, int hp, int a, int d, int s){
         this.name = n;
         this.maxHp = mHp;
