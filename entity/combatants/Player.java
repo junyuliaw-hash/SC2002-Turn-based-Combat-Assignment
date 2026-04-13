@@ -97,12 +97,6 @@ public abstract class Player extends Combatant {
         }
     }
 
-    public void refreshCooldown(){
-        if (specialSkill != null) {
-            specialSkill.refreshCooldown();
-        }
-    }
-
     public List<Item> getInventory(){return inventory;}
     public SpecialSkill getSpecialSkill(){return specialSkill;}
 }
