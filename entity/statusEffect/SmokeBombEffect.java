@@ -4,8 +4,10 @@ import java.util.List;
 import entity.combatants.*;
 
 public class SmokeBombEffect extends StatusEffect {
+    private boolean justApplied = true;
+
     public SmokeBombEffect() { 
-        super(2, "Smoke Bomb Invulnerability"); 
+        super(1, "Smoke Bomb Invulnerability"); 
     }
 
     @Override
@@ -19,7 +21,11 @@ public class SmokeBombEffect extends StatusEffect {
 
     @Override
     public void decreaseDuration() {
-            duration--;
+        if (justApplied) {
+            justApplied = false;
+            return;
+        }
+        super.decreaseDuration();
     }
 
     @Override

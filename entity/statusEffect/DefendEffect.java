@@ -5,8 +5,10 @@ import entity.combatants.*;
 
 public class DefendEffect extends StatusEffect {
     private int defenseBoost = 10;
+    private boolean justApplied = true;
+
     public DefendEffect() { 
-        super(2, "Defend"); 
+        super(1, "Defend"); 
     }
 
     @Override
@@ -19,6 +21,15 @@ public class DefendEffect extends StatusEffect {
     public void remove(Combatant target) {
         int currentDefense = target.getDefense();
         target.setDefense(currentDefense - defenseBoost);
+    }
+
+    @Override
+    public void decreaseDuration() {
+        if (justApplied) {
+            justApplied = false;
+            return;
+        }
+        super.decreaseDuration();
     }
 
     @Override
