@@ -226,7 +226,7 @@ public class CombatMenu {
      */
     public int promptAction(Player player) {
         System.out.println();
-        System.out.printf("  %s's Turn — Choose an action:%n", player.getName());
+        // print choose action done by battle engine
         System.out.println("  [1] Basic Attack");
         System.out.println("  [2] Defend  (+10 DEF this round and next)");
 
