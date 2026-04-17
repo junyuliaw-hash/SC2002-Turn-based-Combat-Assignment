@@ -43,7 +43,7 @@ public abstract class Player extends Combatant {
                 
             case 3: // Use Item
                 int itemIndex = ui.promptItemChoice(this);
-                useItem(itemIndex, enemies);
+                useItem(itemIndex, enemies, ui);
                 break;
                 
             case 4: // Special Skill
@@ -67,10 +67,17 @@ public abstract class Player extends Combatant {
         this.addStatusEffect(effect);
     }
 
-    public void useItem(int itemIndex, List<Enemy> enemies){
+    public void useItem(int itemIndex, List<Enemy> enemies, CombatMenu ui){
         if (itemIndex >= 0 && itemIndex < inventory.size()){
             Item item = inventory.remove(itemIndex);
-            item.use(this, enemies);
+            if (item instanceof entity.items.Poison) {
+                Enemy target = ui.promptTarget(enemies);
+                if (target != null) {
+                    item.use(this, target);
+                }
+            } else {
+                item.use(this, enemies);
+            }
         }
     }
 
