@@ -6,6 +6,7 @@ import entity.combatants.Player;
 import entity.items.Item;
 import java.util.List;
 import java.util.Scanner;
+import java.util.StringJoiner;
 
 
 /**
@@ -14,6 +15,7 @@ import java.util.Scanner;
  * Separated from battle logic in accordance with SRP and layered architecture.
  */
 public class CombatMenu {
+    private static final Scanner SHARED_SCANNER = new Scanner(System.in);
 
     private Scanner scanner;
     private BattleEngine engine;
@@ -24,7 +26,7 @@ public class CombatMenu {
 
     // 1. Remove BattleEngine from the constructor
     public CombatMenu() {
-        this.scanner = new Scanner(System.in);
+        this.scanner = SHARED_SCANNER;
     }
 
     // 2. Add this setter method so we can link it later
@@ -109,6 +111,7 @@ public class CombatMenu {
                     player.getAttack(),
                     player.getDefense(),
                     player.getSpeed());
+            System.out.printf("    Effects: %s%n", formatEffects(player.getActiveEffectNames()));
 
             // Inventory
             List<Item> inventory = player.getInventory();
@@ -150,10 +153,23 @@ public class CombatMenu {
                         e.getDefense(),
                         e.getSpeed(),
                         aliveStatus);
+                System.out.printf("        Effects: %s%n", formatEffects(e.getActiveEffectNames()));
             }
         }
 
         System.out.println("------------------------------------------------------------");
+    }
+
+    private String formatEffects(List<String> effectNames) {
+        if (effectNames.isEmpty()) {
+            return "None";
+        }
+
+        StringJoiner joiner = new StringJoiner(", ");
+        for (String effectName : effectNames) {
+            joiner.add(effectName);
+        }
+        return joiner.toString();
     }
 
     // -----------------------------------------------------------------------
