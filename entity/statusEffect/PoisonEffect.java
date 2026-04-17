@@ -7,9 +7,8 @@ public class PoisonEffect extends StatusEffect {
     
     private int damagePerTurn = 20;
 
-    // Call the parent constructor: duration of 1 turn (or more if you prefer), name "Poison"
     public PoisonEffect() {
-        super(2, "Poison Effect");
+        super(1, "Poison Effect");
     }
 
     @Override
