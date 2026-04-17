@@ -15,10 +15,10 @@ public class PoisonShot extends AbstractSkill {
     public void execute(Player user, List<Enemy> targets) {
         if (targets.isEmpty()) return;
         Enemy target = new CombatMenu().promptTarget(targets); // Target selected enemy
-        int damage = user.getAttack();
-        target.applyDamage(damage);
+        int damage = target.applyDamage(user.getAttack());
         
         PoisonEffect poison = new PoisonEffect();
         poison.apply(target);
+        System.out.println(user.getName() + " uses Poison Shot on " + target.getName() + " for " + damage + " damage.");
     }
 }
