@@ -4,18 +4,17 @@ import entity.combatants.*;
 import java.util.List;
 
 public class PoisonEffect extends StatusEffect {
-    
-    private int damagePerTurn = 20;
+    private int firstTickDamage = 20;
+    private int secondTickDamage = 10;
 
     public PoisonEffect() {
-        super(1, "Poison Effect");
+        super(2, "Poison Effect");
     }
 
     @Override
     public void apply(Combatant target) {
-        target.applyDamage(damagePerTurn + target.getDefense());
-        System.out.println("  " + target.getName() + " takes " + damagePerTurn + " poison damage upon application.");
-        target.addStatusEffect(this); // Changed from PoisonEffect.this
+        System.out.println("  " + target.getName() + " is poisoned. It will take 20 damage next round and 10 damage after.");
+        target.addStatusEffect(this);
     }
 
     @Override
@@ -27,7 +26,7 @@ public class PoisonEffect extends StatusEffect {
     @Override
     public void apply(List<Enemy> targets) {
         for (Enemy target : targets) {
-            apply(target);
+            new PoisonEffect().apply(target);
         }
     }
 
@@ -39,10 +38,10 @@ public class PoisonEffect extends StatusEffect {
         }
     }
 
-    // Custom method called in Combatant.java
     public void decreaseDuration(Combatant target) {
-        super.decreaseDuration(); // reduces the turn count
-        target.applyDamage(damagePerTurn + target.getDefense());
-        System.out.println("  " + target.getName() + " takes " + damagePerTurn + " poison damage from the active effect.");
+        int damage = duration == 2 ? firstTickDamage : secondTickDamage;
+        super.decreaseDuration();
+        target.applyDamage(damage + target.getDefense());
+        System.out.println("  " + target.getName() + " takes " + damage + " poison damage from the active effect.");
     }
 }

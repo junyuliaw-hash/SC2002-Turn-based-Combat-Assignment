@@ -71,14 +71,7 @@ public abstract class Player extends Combatant {
     public void useItem(int itemIndex, List<Enemy> enemies, CombatMenu ui){
         if (itemIndex >= 0 && itemIndex < inventory.size()){
             Item item = inventory.remove(itemIndex);
-            if (item instanceof entity.items.Poison) {
-                Enemy target = ui.promptTarget(enemies);
-                if (target != null) {
-                    item.use(this, target);
-                }
-            } else {
-                item.use(this, enemies);
-            }
+            item.use(this, enemies);
         }
     }
 

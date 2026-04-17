@@ -13,9 +13,13 @@ public class Poison implements Item {
 
     @Override
     public void use(Combatant player, List<Enemy> targets) {
-        for (Enemy target : targets) {
-            ((Combatant) target).addStatusEffect(new PoisonEffect());
+        List<Enemy> aliveTargets = targets.stream().filter(Enemy::isAlive).toList();
+        if (aliveTargets.isEmpty()) {
+            System.out.println(player.getName() + " used Poison, but there are no enemies to affect.");
+            return;
         }
+        new PoisonEffect().apply(aliveTargets);
+        System.out.println(player.getName() + " used Poison! All enemies are affected.");
     }
 
     @Override
