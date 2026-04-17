@@ -12,18 +12,24 @@ public class Enemy extends Combatant {
         this.speed = s;
     }
 
-    public void performBasicAttack(Player target){
+    public int performBasicAttack(Player target){
         if (target.hasEffect("Smoke Bomb Invulnerability")) {
-            return;
+            return 0;
         }
-        target.applyDamage(this.attack);
+        return target.applyDamage(this.attack);
     }
 
     public void takeTurn(BattleEngine engine){
         if (this.hasEffect("Stun")){
             return;
         }
-        performBasicAttack(engine.getPlayer());
+        Player target = engine.getPlayer();
+        int damage = performBasicAttack(target);
+        if (damage == 0 && target.hasEffect("Smoke Bomb Invulnerability")) {
+            engine.getUI().displayMessage(getName() + " attacks, but the Smoke Bomb blocks the hit.");
+        } else {
+            engine.getUI().displayMessage(getName() + " attacks " + target.getName() + " for " + damage + " damage.");
+        }
     }
 
     public void setName(String name){this.name = name;}
