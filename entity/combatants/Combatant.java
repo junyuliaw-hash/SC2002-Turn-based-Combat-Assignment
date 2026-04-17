@@ -3,6 +3,7 @@ package entity.combatants;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import control.BattleEngine;
 import entity.statusEffect.*; // Import the status package to access PoisonEffect
@@ -18,9 +19,10 @@ public abstract class Combatant {
     
     public abstract void takeTurn(BattleEngine engine);
     
-    public void applyDamage(int rawDmg){
+    public int applyDamage(int rawDmg){
         int finalDmg = Math.max(0, rawDmg - this.defense);
         this.hp = Math.max(0, this.hp - finalDmg);
+        return finalDmg;
     }
 
     public void heal(int amount){
@@ -59,6 +61,12 @@ public abstract class Combatant {
 
     public boolean hasEffect(String effectName) {
         return activeEffects.stream().anyMatch(e -> e.getName().equalsIgnoreCase(effectName));
+    }
+
+    public List<String> getActiveEffectNames() {
+        return activeEffects.stream()
+                .map(StatusEffect::getName)
+                .collect(Collectors.toList());
     }
 
     public boolean isAlive(){return hp > 0;}
