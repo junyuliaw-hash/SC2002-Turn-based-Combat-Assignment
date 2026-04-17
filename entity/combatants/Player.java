@@ -33,7 +33,8 @@ public abstract class Player extends Combatant {
             case 1:
                 Enemy target = ui.promptTarget(enemies);
                 if (target != null){
-                    performBasicAttack(target);
+                    int damage = performBasicAttack(target);
+                    ui.displayMessage(getName() + " attacks " + target.getName() + " for " + damage + " damage.");
                 }
                 break;
                 
@@ -57,8 +58,8 @@ public abstract class Player extends Combatant {
         }
     }
 
-    public void performBasicAttack(Enemy target){
-        target.applyDamage(attack);
+    public int performBasicAttack(Enemy target){
+        return target.applyDamage(attack);
     }
 
     public void performDefend(){
